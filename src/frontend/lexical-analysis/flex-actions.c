@@ -90,7 +90,7 @@ token ArtifactPatternAction(const char * lexeme) {
 
 token GatewayPatternAction(const char * lexeme) {
 	LogDebug("GatewayPatternAction: '%s' ", lexeme);
-	yylval.token= lexeme;
+	yylval.token= atoi(lexeme);
 	return GATEWAY;
 }
 
@@ -114,14 +114,14 @@ token ToPatternAction(const char * lexeme) {
 
 token OpenCurlyBracesPatternAction(const char * lexeme) {
 	LogDebug("OpenCurlyBracesPatternAction: '%s'.", lexeme);
-	yylval.token = OPEN_CURLY_BRACES;
-	return OPEN_CURLY_BRACES;
+	yylval.token = CURLY_BRACES_OPEN;
+	return CURLY_BRACES_OPEN;
 }
 
-token CoseCurlyBracesPatternAction(const char * lexeme) {
+token CloseCurlyBracesPatternAction(const char * lexeme) {
 	LogDebug("CloseCurlyBracesPatternAction: '%s'.", lexeme);
-	yylval.token = CLOSE_CURLY_BRACES;
-	return CLOSE_CURLY_BRACES;
+	yylval.token = CURLY_BRACES_CLOSE;
+	return CURLY_BRACES_CLOSE;
 }
 
 
@@ -139,7 +139,7 @@ token NamePatternAction(const char * lexeme, const int length) {
 	LogDebug("NamePatternAction: '%s' (length = %d).", lexeme, length);
 	char * aux = malloc(length+1);
 	strncpy(aux, lexeme, length);
-	yylval.string = lexeme;
+	yylval.string = aux;
 	return NAME;
 }
 
@@ -147,7 +147,7 @@ token EventTypePatternAction(const char * lexeme, const int length) {
 	LogDebug("EventTypePatternAction: '%s' (length = %d).", lexeme, length);
 	char * aux = malloc(length+1);
 	strncpy(aux, lexeme, length);
-	yylval.string = lexeme;
+	yylval.string = aux;
 	return EVENT_TYPE;
 }
 
@@ -155,7 +155,7 @@ token ArtifactTypePatternAction(const char * lexeme, const int length) {
 	LogDebug("rtifactTypePatternAction: '%s' (length = %d).", lexeme, length);
 	char * aux = malloc(length+1);
 	strncpy(aux, lexeme, length);
-	yylval.string = lexeme;
+	yylval.string = aux;
 	return ARTIFACT_TYPE;
 }
 
@@ -164,7 +164,7 @@ token VarPatternAction(const char * lexeme, const int length) {
 	LogDebug("VarPatternAction: '%s' (length = %d).", lexeme, length);
 	char * aux = malloc(length+1);
 	strncpy(aux, lexeme, length);
-	yylval.string = lexeme;
+	yylval.string = aux;
 	return VAR;
 }
 

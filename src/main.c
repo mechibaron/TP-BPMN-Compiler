@@ -3,6 +3,7 @@
 #include "backend/support/shared.h"
 #include "frontend/syntactic-analysis/bison-parser.h"
 #include <stdio.h>
+#include <string.h>
 
 // Estado de la aplicación.
 CompilerState state;

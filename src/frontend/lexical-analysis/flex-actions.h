@@ -3,7 +3,7 @@
 
 #include "../../backend/support/shared.h"
 #include "../syntactic-analysis/bison-parser.h"
-
+#define YYUNDEF 257
 /**
  * Se definen las acciones a ejecutar sobre cada patrón hallado mediante el
  * analizador léxico Flex. Este analizador solo puede identificar
@@ -39,7 +39,7 @@ token SetPatternAction(const char * lexeme);
 token AsPatternAction(const char * lexeme);
 token ToPatternAction(const char * lexeme);
 token OpenCurlyBracesPatternAction(const char * lexeme);
-token CoseCurlyBracesPatternAction(const char * lexeme);
+token CloseCurlyBracesPatternAction(const char * lexeme);
 token NamePatternAction(const char * lexeme, const int length);
 token EventTypePatternAction(const char * lexeme, const int length);
 token ArtifactTypePatternAction(const char * lexeme, const int length);
