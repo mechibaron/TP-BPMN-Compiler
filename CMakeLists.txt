@@ -8,11 +8,11 @@ project(Compiler C)
 # Compilar el parser con Bison, generando contra-ejemplos en caso de que se presenten conflictos.
 add_custom_command(
 	OUTPUT ../src/frontend/syntactic-analysis/bison-parser.c ../src/frontend/syntactic-analysis/bison-parser.h
-	COMMAND bison -Wcounterexamples -d ../src/frontend/syntactic-analysis/bison-grammar.y -o ../src/frontend/syntactic-analysis/bison-parser.c)
+	COMMAND bison -d ../src/frontend/syntactic-analysis/bison-grammar.y -o ../src/frontend/syntactic-analysis/bison-parser.c)
 
 # Seleccionar estrategia según el compilador de C disponible en el sistema.
 # @see https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER_ID.html
-if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
+#if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
 	message(NOTICE "El compilador de C es GCC.")
 
 	# Opciones para GCC.
@@ -26,35 +26,46 @@ if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
 		COMMAND flex -o ../src/frontend/lexical-analysis/flex-scanner.c ../src/frontend/lexical-analysis/flex-patterns.l
 		DEPENDS ../src/frontend/syntactic-analysis/bison-parser.c ../src/frontend/syntactic-analysis/bison-parser.h)
 
-elseif (CMAKE_C_COMPILER_ID STREQUAL "MSVC")
-	message(NOTICE "El compilador de C es Microsoft Visual Studio.")
+#elseif (CMAKE_C_COMPILER_ID STREQUAL "MSVC")
+#	message(NOTICE "El compilador de C es Microsoft Visual Studio.")
+#
+#	# Opciones para MSVC.
+#	# add_compile_options(...)
+#
+#	# Compilar el scanner con Flex, usando compatibilidad con Microsoft Windows.
+#	add_custom_command(
+#		OUTPUT ../src/frontend/lexical-analysis/flex-scanner.c
+#		COMMAND flex --wincompat -o ../src/frontend/lexical-analysis/flex-scanner.c ../src/frontend/lexical-analysis/flex-patterns.l
+#		DEPENDS ../src/frontend/syntactic-analysis/bison-parser.c ../src/frontend/syntactic-analysis/bison-parser.h)
+#
+#elseif (CMAKE_C_COMPILER_ID STREQUAL "Clang")
+#	message(NOTICE "El compilador de C es LLVM Clang.")
+#
+#	# Opciones para Clang.
+#	# add_compile_options(...)
+#
+#	# Compilar el scanner con Flex.
+#	add_custom_command(
+#		OUTPUT ../src/frontend/lexical-analysis/flex-scanner.c
+#		COMMAND flex -o ../src/frontend/lexical-analysis/flex-scanner.c ../src/frontend/lexical-analysis/flex-patterns.l
+#		DEPENDS ../src/frontend/syntactic-analysis/bison-parser.c ../src/frontend/syntactic-analysis/bison-parser.h)
+#elseif (CMAKE_C_COMPILER_ID STREQUAL "AppleClang")
+#message(NOTICE "El compilador de C es LLVM AppleClang.")
 
-	# Opciones para MSVC.
-	# add_compile_options(...)
+# Opciones para Clang.
+# add_compile_options(...)
 
-	# Compilar el scanner con Flex, usando compatibilidad con Microsoft Windows.
-	add_custom_command(
-		OUTPUT ../src/frontend/lexical-analysis/flex-scanner.c
-		COMMAND flex --wincompat -o ../src/frontend/lexical-analysis/flex-scanner.c ../src/frontend/lexical-analysis/flex-patterns.l
-		DEPENDS ../src/frontend/syntactic-analysis/bison-parser.c ../src/frontend/syntactic-analysis/bison-parser.h)
+# Compilar el scanner con Flex.
+#add_custom_command(
+#	OUTPUT ../src/frontend/lexical-analysis/flex-scanner.c
+#	COMMAND flex -o ../src/frontend/lexical-analysis/flex-scanner.c ../src/frontend/lexical-analysis/flex-patterns.l
+#	DEPENDS ../src/frontend/syntactic-analysis/bison-parser.c ../src/frontend/syntactic-analysis/bison-parser.h)
+#else ()
+#	message(NOTICE "El compilador de C es desconocido.")
+#	message(NOTICE "No se generará el scanner con Flex.")
+#	message(NOTICE "Incluya un 'elseif' adicional para manejar su compilador.")
 
-elseif (CMAKE_C_COMPILER_ID STREQUAL "Clang")
-	message(NOTICE "El compilador de C es LLVM Clang.")
-
-	# Opciones para Clang.
-	# add_compile_options(...)
-
-	# Compilar el scanner con Flex.
-	add_custom_command(
-		OUTPUT ../src/frontend/lexical-analysis/flex-scanner.c
-		COMMAND flex -o ../src/frontend/lexical-analysis/flex-scanner.c ../src/frontend/lexical-analysis/flex-patterns.l
-		DEPENDS ../src/frontend/syntactic-analysis/bison-parser.c ../src/frontend/syntactic-analysis/bison-parser.h)
-else ()
-	message(NOTICE "El compilador de C es desconocido.")
-	message(NOTICE "No se generará el scanner con Flex.")
-	message(NOTICE "Incluya un 'elseif' adicional para manejar su compilador.")
-
-endif ()
+#endif ()
 
 # Especificar punto de entrada del proyecto y códigos fuente (extensión *.c).
 # Los *.h se incluyen automáticamente desde estos fuentes.
