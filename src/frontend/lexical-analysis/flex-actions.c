@@ -26,47 +26,167 @@ void EndCommentPatternAction() {
 	LogDebug("EndCommentPatternAction.");
 }
 
-token AdditionOperatorPatternAction(const char * lexeme) {
-	LogDebug("AdditionOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = ADD;
-	return ADD;
+
+
+token StartPatternAction(const char * lexeme) {
+	LogDebug("StartPatternAction: '%s'.", lexeme);
+	yylval.token = START;
+	return START;
 }
 
-token CloseParenthesisPatternAction(const char * lexeme) {
-	LogDebug("CloseParenthesisPatternAction: '%s'.", lexeme);
-	yylval.token = CLOSE_PARENTHESIS;
-	return CLOSE_PARENTHESIS;
+token EndPatternAction(const char * lexeme) {
+	LogDebug("EndPatternAction: '%s'.", lexeme);
+	yylval.token = END;
+	return END;
 }
 
-token DivisionOperatorPatternAction(const char * lexeme) {
-	LogDebug("DivisionOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = DIV;
-	return DIV;
+token GraphPatternAction(const char * lexeme) {
+	LogDebug("GraphPatternAction: '%s'.", lexeme);
+	yylval.token = GRAPH_ID;
+	return GRAPH_ID;
 }
 
+token PoolPatternAction(const char * lexeme) {
+	LogDebug("PoolPatternAction: '%s'.", lexeme);
+	yylval.token = POOL;
+	return POOL;
+}
+
+token LanePatternAction(const char * lexeme) {
+	LogDebug("LanePatternAction: '%s'.", lexeme);
+	yylval.token = LANE;
+	return LANE;
+}
+
+token CreatePatternAction(const char * lexeme) {
+	LogDebug("CreatePatternAction: '%s'.", lexeme);
+	yylval.token = CREATE;
+	return CREATE;
+}
+
+token ConnectPatternAction(const char * lexeme) {
+	LogDebug("ConnectPatternAction: '%s'.", lexeme);
+	yylval.token = CONNECT;
+	return CONNECT;
+}
+
+token EventPatternAction(const char * lexeme) {
+	LogDebug("EventPatternAction: '%s'.", lexeme);
+	yylval.token = EVENT;
+	return EVENT;
+}
+
+token ActivityPatternAction(const char * lexeme) {
+	LogDebug("ActivityPatternAction: '%s'.", lexeme);
+	yylval.token = ACTIVITY;
+	return ACTIVITY;
+}
+
+token ArtifactPatternAction(const char * lexeme) {
+	LogDebug("ArtifactPatternAction: '%s'.", lexeme);
+	yylval.token = ARTIFACT;
+	return ARTIFACT;
+}
+
+token GatewayPatternAction(const char * lexeme) {
+	LogDebug("GatewayPatternAction: '%s' ", lexeme);
+	yylval.token= lexeme;
+	return GATEWAY;
+}
+
+token SetPatternAction(const char * lexeme) {
+	LogDebug("SetPatternAction: '%s'.", lexeme);
+	yylval.token = SET;
+	return SET;
+}
+
+token AsPatternAction(const char * lexeme) {
+	LogDebug("AsPatternAction: '%s'.", lexeme);
+	yylval.token = AS;
+	return AS;
+}
+
+token ToPatternAction(const char * lexeme) {
+	LogDebug("ToPatternAction: '%s'.", lexeme);
+	yylval.token = TO;
+	return TO;
+}
+
+token OpenCurlyBracesPatternAction(const char * lexeme) {
+	LogDebug("OpenCurlyBracesPatternAction: '%s'.", lexeme);
+	yylval.token = OPEN_CURLY_BRACES;
+	return OPEN_CURLY_BRACES;
+}
+
+token CoseCurlyBracesPatternAction(const char * lexeme) {
+	LogDebug("CloseCurlyBracesPatternAction: '%s'.", lexeme);
+	yylval.token = CLOSE_CURLY_BRACES;
+	return CLOSE_CURLY_BRACES;
+}
+
+
+/*
 token IntegerPatternAction(const char * lexeme, const int length) {
 	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
 	yylval.integer = atoi(lexeme);
 	return INTEGER;
 }
+*/
 
-token MultiplicationOperatorPatternAction(const char * lexeme) {
-	LogDebug("MultiplicationOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = MUL;
-	return MUL;
+
+//???
+token NamePatternAction(const char * lexeme, const int length) {
+	LogDebug("NamePatternAction: '%s' (length = %d).", lexeme, length);
+	char * aux = malloc(length+1);
+	strncpy(aux, lexeme, length);
+	yylval.string = lexeme;
+	return NAME;
 }
 
-token OpenParenthesisPatternAction(const char * lexeme) {
-	LogDebug("OpenParenthesisPatternAction: '%s'.", lexeme);
-	yylval.token = OPEN_PARENTHESIS;
-	return OPEN_PARENTHESIS;
+token EventTypePatternAction(const char * lexeme, const int length) {
+	LogDebug("EventTypePatternAction: '%s' (length = %d).", lexeme, length);
+	char * aux = malloc(length+1);
+	strncpy(aux, lexeme, length);
+	yylval.string = lexeme;
+	return EVENT_TYPE;
 }
 
-token SubtractionOperatorPatternAction(const char * lexeme) {
-	LogDebug("SubtractionOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = SUB;
-	return SUB;
+token ArtifactTypePatternAction(const char * lexeme, const int length) {
+	LogDebug("rtifactTypePatternAction: '%s' (length = %d).", lexeme, length);
+	char * aux = malloc(length+1);
+	strncpy(aux, lexeme, length);
+	yylval.string = lexeme;
+	return ARTIFACT_TYPE;
 }
+
+
+token VarPatternAction(const char * lexeme, const int length) {
+	LogDebug("VarPatternAction: '%s' (length = %d).", lexeme, length);
+	char * aux = malloc(length+1);
+	strncpy(aux, lexeme, length);
+	yylval.string = lexeme;
+	return VAR;
+}
+
+
+
+// token MultiplicationOperatorPatternAction(const char * lexeme) {
+// 	LogDebug("MultiplicationOperatorPatternAction: '%s'.", lexeme);
+// 	yylval.token = MUL;
+// 	return MUL;
+// }
+
+// // token OpenParenthesisPatternAction(const char * lexeme) {
+// // 	LogDebug("OpenParenthesisPatternAction: '%s'.", lexeme);
+// // 	yylval.token = OPEN_PARENTHESIS;
+// // 	return OPEN_PARENTHESIS;
+// }
+
+// // token SubtractionOperatorPatternAction(const char * lexeme) {
+// // 	LogDebug("SubtractionOperatorPatternAction: '%s'.", lexeme);
+// // 	yylval.token = SUB;
+// // 	return SUB;
+// }
 
 token UnknownPatternAction(const char * lexeme, const int length) {
 	LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);

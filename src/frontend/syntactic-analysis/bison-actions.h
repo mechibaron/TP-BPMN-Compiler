@@ -15,17 +15,13 @@
 int ProgramGrammarAction(const int value);
 
 // Expresión.
-int AdditionExpressionGrammarAction(const int leftValue, const int rightValue);
-int SubtractionExpressionGrammarAction(const int leftValue, const int rightValue);
-int MultiplicationExpressionGrammarAction(const int leftValue, const int rightValue);
-int DivisionExpressionGrammarAction(const int leftValue, const int rightValue);
-int FactorExpressionGrammarAction(const int value);
-
-// Factores.
-int ExpressionFactorGrammarAction(const int value);
-int ConstantFactorGrammarAction(const int value);
-
-// Constantes.
-int IntegerConstantGrammarAction(const int value);
+int CreateGraphAction(const char* title, const char*value);
+int CreateEventAction(char* type, char* title, char* var);
+int CreateActivityAction(char* title, char* var);
+int CreateArtifactAction(char* type, char* title, char* var);
+int CreateGatewayAction(char* title, char* setName1, char* exp1, char* setName2, char* exp2, char* var );
+int CreatePoolAction(const char* pool, const char* lane);
+int CreateLaneAction(const char* title, const char* value);
+int CreateConnectionAction(const char* leftNode, const char* rightNode);
 
 #endif

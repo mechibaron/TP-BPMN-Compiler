@@ -17,9 +17,12 @@
 %x COMMENT
 
 /* Patrones reutilizables. */
-digit			[0-9]
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
+event_type      (start|intermediate|end)
+artifact_type   (input|output|collection|storage)
+name            \".*\"
+var             $[a-zA-Z]+
 
 %%
 
@@ -28,17 +31,40 @@ whitespace		[ \f\n\r\t\v]
 <COMMENT>{endline}							{ ; }
 <COMMENT>"*/"								{ EndCommentPatternAction(); BEGIN(INITIAL); }
 
-"+"											{ return AdditionOperatorPatternAction(yytext); }
-"-"											{ return SubtractionOperatorPatternAction(yytext); }
-"*"											{ return MultiplicationOperatorPatternAction(yytext); }
-"/"											{ return DivisionOperatorPatternAction(yytext); }
 
-"("											{ return OpenParenthesisPatternAction(yytext); }
-")"											{ return CloseParenthesisPatternAction(yytext); }
 
-{digit}+									{ return IntegerPatternAction(yytext, yyleng); }
+"start"                                     { return StartPatternAction(yytext); }
+"end"                                       { return EndPatternAction(yytext); }
+
+"graph"                                     { return GraphPatternAction(yytext); }
+"pool"                                      { return PoolPatternAction(yytext); }
+"lane"                                      { return LanePatternAction(yytext); }
+
+"create"                                    { return CreatePatternAction(yytext); }
+"connect"                                   { return ConnectPatternAction(yytext); }
+
+
+"event"                                     { return EventPatternAction(yytext); }
+"activity"                                  { return ActivityPatternAction(yytext); }
+"artifact"                                  { return ArtifactPatternAction(yytext); }
+"gateway"                                   { return GatewayPatternAction(yytext); }
+
+"set"                                       { return SetPatternAction(yytext); }
+"as"                                        { return AsPatternAction(yytext); }
+"to"                                        { return ToPatternAction(yytext); }
+
+"{"                                         { return OpenCurlyBracesPatternAction(yytext); }            
+"}"                                         { return CloseCurlyBracesPatternAction(yytext); }
 
 {whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
+
+{event_type}                                { return EventTypePatternAction(yytext, yyleng); }
+
+{artifact}                                  { return ArtifactTypePatternAction(yytext, yyleng); }
+
+{name}                                      { return NamePatternAction(yytext, yyleng); }
+
+{var}                                       { return VarPatternAction(yytext, yyleng); }
 
 .											{ return UnknownPatternAction(yytext, yyleng); }
 

@@ -47,42 +47,46 @@ int ProgramGrammarAction(const int value) {
 	return value;
 }
 
-int AdditionExpressionGrammarAction(const int leftValue, const int rightValue) {
-	LogDebug("\tAdditionExpressionGrammarAction(%d, %d)", leftValue, rightValue);
-	return Add(leftValue, rightValue);
+int CreateGraphAction(const char* title, const char*value) {
+	LogDebug("\tCreateGraphAction(%s)", title);
+	return 0;
+	// return Graph(value);
 }
 
-int SubtractionExpressionGrammarAction(const int leftValue, const int rightValue) {
-	LogDebug("\tSubtractionExpressionGrammarAction(%d, %d)", leftValue, rightValue);
-	return Subtract(leftValue, rightValue);
+int CreateEventAction(char* type, char* title, char* var){
+	LogDebug("\tCreateEventAction(%s)", title);
+	return 0;
+	// return Event(type, title, var);
 }
 
-int MultiplicationExpressionGrammarAction(const int leftValue, const int rightValue) {
-	LogDebug("\tMultiplicationExpressionGrammarAction(%d, %d)", leftValue, rightValue);
-	return Multiply(leftValue, rightValue);
+int CreateActivityAction(char* title, char* var){
+	LogDebug("\tCreateActivityAction(%s)", title);
+	return 0;
+}
+int CreateArtifactAction(char* type, char* title, char* var){
+	LogDebug("\tCreateArtifactAction(%s)", title);
+	return 0;
 }
 
-int DivisionExpressionGrammarAction(const int leftValue, const int rightValue) {
-	LogDebug("\tDivisionExpressionGrammarAction(%d, %d)", leftValue, rightValue);
-	return Divide(leftValue, rightValue);
+int CreateGatewayAction(char* title, char* setName1, char* exp1, char* setName2, char* exp2, char* var ){
+	LogDebug("\tCreateGatewayAction(%s)", title);
+	return 0;
 }
 
-int FactorExpressionGrammarAction(const int value) {
-	LogDebug("\tFactorExpressionGrammarAction(%d)", value);
-	return value;
+int CreatePoolAction(const char* pool, const char* lane) {
+	LogDebug("\tCreatePoolAction");
+	return 0;
+	// return Pool(leftValue, rightValue);
 }
 
-int ExpressionFactorGrammarAction(const int value) {
-	LogDebug("\tExpressionFactorGrammarAction(%d)", value);
-	return value;
+int CreateLaneAction(const char* title, const char* value) {
+	LogDebug("\tCreateLaneAction(%s)", title);
+	return 0;
+	// return Lane(value);
 }
 
-int ConstantFactorGrammarAction(const int value) {
-	LogDebug("\tConstantFactorGrammarAction(%d)", value);
-	return value;
-}
-
-int IntegerConstantGrammarAction(const int value) {
-	LogDebug("\tIntegerConstantGrammarAction(%d)", value);
-	return value;
+int CreateConnectionAction(const char* leftNode, const char* rightNode){
+	LogDebug("\tCreateConnectionAction");
+	return 0;
+	// return Connection(leftNode, rightNode)
 }
