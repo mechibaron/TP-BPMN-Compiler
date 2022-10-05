@@ -23,15 +23,15 @@ typedef struct ExpressionP
 
 typedef struct Lane{
     char * title;
-    struct Expression   expression; //lista de expresiones
-    struct Connect  connect; //lista de conexiones
+    struct Expression **  expression; //lista de expresiones
+    struct Connect ** connect; //lista de conexiones
 } Lane;
 
 typedef struct Pool{
     char * title;
-    struct Expression   expression; //lista de expresiones
-    struct Connect  connect;  //lista de conexiones
-    struct Lane  lane; //arreglo de lanes
+    struct Expression **  expression; //lista de expresiones
+    struct Connect ** connect;  //lista de conexiones
+    struct Lane ** lane; //arreglo de lanes
 } Pool;
 
 typedef struct PoolP
