@@ -1,4 +1,4 @@
-start graph "hola" 
+start graph "laneWithoutPool" 
     start lane "lane1"
         create event initial "startEvent" as $first            
         create event intermediate "middle" as $middle

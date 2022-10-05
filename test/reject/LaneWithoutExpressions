@@ -1,0 +1,6 @@
+start graph "laneNoExp"
+    start pool "pool"
+        start lane "lane"
+        end lane
+    end pool
+end graph

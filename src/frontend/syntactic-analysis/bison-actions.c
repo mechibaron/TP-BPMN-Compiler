@@ -68,7 +68,7 @@ int CreateArtifactAction(char* type, char* title, char* var){
 	return 0;
 }
 
-int CreateGatewayAction(char* title, char* setName1, char* exp1, char* setName2, char* exp2, char* var ){
+int CreateGatewayAction(char* title, int* setToken, char* var ){
 	LogDebug("\tCreateGatewayAction(%s)", title);
 	return 0;
 }
@@ -97,7 +97,8 @@ int CreatePoolPAction(){
 	// return Connection(leftNode, rightNode)
 }
 
-int CreateGatewayAction2(char* title, char* setName1, char* exp1, char* setName2, char* exp2){
-	LogDebug("\tCreateGatewayAction");
+
+int CreateSetGetwayAction(char* title, char* setName1){
+		LogDebug("\tCreateSetGatewayAction");
 	return 0;
 }

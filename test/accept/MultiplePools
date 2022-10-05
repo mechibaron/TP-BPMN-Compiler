@@ -1,4 +1,4 @@
-start graph "multiplepools" 
+start graph "multiplePools" 
     start pool "pool1"
         create event initial "startEvent" as $first
         create event intermediate "middle" as $midde

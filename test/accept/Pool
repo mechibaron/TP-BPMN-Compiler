@@ -1,4 +1,4 @@
-start graph "hola" 
+start graph "poolGraph" 
     start pool "pool1"
         create event initial "startEvent" as $first
         create event intermediate "middle" as $midde

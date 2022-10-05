@@ -10,16 +10,21 @@ typedef struct Expression
     char * varName;
 } Expression;
 
+typedef struct ExpressionP
+{
+    struct Expression * expression;
+} ExpressionP;
+
+typedef struct Create {
+    struct Expression expression;
+}Create;
+
+
 typedef struct Connect{
     char *  title; //si tiene mensaje -> sino vacio
     struct Expression * from;
     struct Expression * to;
 } Connect;
-
-typedef struct ExpressionP
-{
-    struct Expression * expression;
-} ExpressionP;
 
 typedef struct Lane{
     char * title;
@@ -43,16 +48,21 @@ typedef struct Graph {
     struct Pool ** pool; //arreglo de pools
 } Graph;
 
-typedef struct Gateway
-{
-    char * title;
-    struct Connect * connect1;
-    struct Connect * connect2;
-} Gateway;
-
-
 typedef struct Program{
     Graph * graph;
 } Program;
 
+typedef struct Set {
+    struct Connect * connect1;
+}Set;
+
+typedef struct SetP{
+    struct Set * set;
+}SetP;
+
+typedef struct Gateway
+{
+    char * title;
+    struct Set ** sets;
+} Gateway;
 #endif

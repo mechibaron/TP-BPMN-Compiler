@@ -1,4 +1,4 @@
-start graph "hola" 
+start graph "connections" 
     create event initial "a" as $vara
     create event final "b" as $varb
     connect $vara to $varab

@@ -1,4 +1,4 @@
-start graph "hola" 
+start graph "poolWithLane" 
     start pool "pool1"
         start lane "lane1"
             create event initial "startEvent" as $first

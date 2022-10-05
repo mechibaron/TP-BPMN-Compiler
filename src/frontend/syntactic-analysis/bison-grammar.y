@@ -12,6 +12,9 @@
 	Program * program;
 	Expression * expression;
 	ExpressionP * expressionp;
+	Create * create;
+	Set * set;
+	SetP * setp;
 	Graph * graph;
 	Pool * pool;
 	PoolP * poolp;
@@ -53,10 +56,13 @@
 %type <program> program
 %type <expression> expression
 %type <expressionp> expressionp
+%type <create> create
 %type <graph> graph
 %type <pool> pool
 %type <poolp> poolp
 %type <gateway> gateway
+%type <set> set
+%type <setp> setp
 %type <lane> lane
 %type <connect> connect
  
@@ -71,7 +77,7 @@ graph: START GRAPH_ID NAME pool END GRAPH_ID				{ $$ = CreateGraphAction($3,$4);
 	| START GRAPH_ID NAME expression END GRAPH_ID			{ $$ = CreateGraphAction($3,$4); }
 	;
 
-pool: START POOL NAME lane expression END POOL poolp		{ $$ = CreatePoolAction($3,$4); }
+pool: START POOL NAME lane expressionp END POOL poolp		{ $$ = CreatePoolAction($3,$4); }
 	;
 
 poolp: pool 												{ $$ = CreatePoolPAction() }
@@ -82,30 +88,33 @@ lane: START LANE NAME expression END LANE lane				{ $$ = CreateLaneAction($3,$4)
 	| START LANE expression END LANE lane					{ $$ = CreateLaneAction($3,$4); }
 	| /*lambda*/  
 	;
+                  
+expression: create expressionp 	{ $$ = $1 }
+			;
+create:  CREATE EVENT EVENT_TYPE NAME AS VAR 			{ $$ = CreateEventAction($3, $4, $6); }
+		| CREATE ACTIVITY NAME AS VAR 					{ $$ = CreateActivityAction($3, $5); }
+		| CREATE ARTIFACT ARTIFACT_TYPE NAME AS VAR  	{ $$ = CreateArtifactAction($3, $4, $6); }
+		| gateway										{ $$ = $1; }
+		| connect										{ $$ = $1; }
+		;
 
-expression: CREATE EVENT EVENT_TYPE NAME AS VAR expressionp 			{ $$ = CreateEventAction($3, $4, $6); }
-	| CREATE ACTIVITY NAME AS VAR	expressionp 						{ $$ = CreateActivityAction($3, $5); }
-	| CREATE ARTIFACT ARTIFACT_TYPE NAME AS VAR expressionp 			{ $$ = CreateArtifactAction($3, $4, $6); }
-	| gateway expressionp 												{ $$ = $1 }
-	| connect															{ $$ = $1 }
-	;
-
-
-expressionp: expression 													{ $$ = $1 }
+expressionp: expression 								{ $$ = $1 }
 	| /*lambda*/ 
 	;
 
 gateway: CREATE GATEWAY NAME  CURLY_BRACES_OPEN
-			SET NAME CONNECT TO VAR
-			SET NAME CONNECT TO VAR		
-		 CURLY_BRACES_CLOSE AS VAR										{ $$ = CreateGatewayAction($3, $6, $8, $10, $12, $15 ); }
-		|CREATE GATEWAY NAME  CURLY_BRACES_OPEN
-			SET NAME CONNECT TO VAR	
-		 CURLY_BRACES_CLOSE AS VAR										{ $$ = CreateGatewayAction2($3, $6, $8, $10, $12 ); }
+			set	
+		 CURLY_BRACES_CLOSE AS VAR 						{ $$ = CreateGatewayAction($3, $4, $7); }
 	;
 
-connect: CONNECT VAR TO VAR expressionp						{$$ = CreateConnectionAction($2, $4); }
-	| /*lambda*/  
+set: SET NAME CONNECT TO VAR setp 						{ $$ = CreateSetGetwayAction($2, $5); }
+	;
+
+setp: set | /*lambda*/
+	;
+
+
+connect: CONNECT VAR TO VAR 						{$$ = CreateConnectionAction($2, $4); } 
 	;
 
 %%

@@ -1,4 +1,4 @@
-start graph "gatewaygraph" 
+start graph "gatewayOneConnect" 
     start pool "pool1"
         start lane "lane1"
             create event initial "startEvent" as $first

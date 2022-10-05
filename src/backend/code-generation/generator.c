@@ -5,6 +5,6 @@
  * Implementación de "generator.h".
  */
 
-void Generator(int result) {
-	LogInfo("El resultado de la expresion computada es: '%d'.", result);
+void Generator() {
+	LogInfo("Feliciationes, haz realizado un BPMN");
 }
