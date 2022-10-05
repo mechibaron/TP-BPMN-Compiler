@@ -64,7 +64,7 @@
 
 %%
 
-program: expression											{ $$ = ProgramGrammarAction($1); }
+program: graph											{ $$ = ProgramGrammarAction($1); }
 	;
 
 graph: START GRAPH_ID NAME pool END GRAPH_ID				{ $$ = CreateGraphAction($3,$4); }

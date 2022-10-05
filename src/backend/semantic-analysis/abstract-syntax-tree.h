@@ -40,7 +40,7 @@ typedef struct PoolP
 } PoolP;
 
 typedef struct Graph {
-    struct Pool  pool; //arreglo de pools
+    struct Pool ** pool; //arreglo de pools
 } Graph;
 
 typedef struct Gateway
