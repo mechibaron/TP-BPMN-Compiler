@@ -1,56 +1,58 @@
 #ifndef ABSTRACT_SYNTAX_TREE_HEADER
 #define ABSTRACT_SYNTAX_TREE_HEADER
 
-/**
-* Se realiza este tipo de definiciones cuando el tipo de dato debe
-* auto-referenciarse, como es el caso de una "Expression", que está compuesta
-* de otras 2 expresiones.
-*/
-typedef struct Expression Expression;
+#include "../support/shared.h"
 
-/**
-* Para cada no-terminal se define una nueva estructura que representa su tipo
-* de dato y, por lo tanto, su nodo en el AST (Árbol de Sintaxis Abstracta).
-*/
-typedef struct {
-	int value;
-} Constant;
+typedef struct Expression
+{
+    char * type; //Activity es una expression y no tiene tipo
+    char * title;
+    char * varName;
+} Expression;
 
-/**
-* En caso de que un no-terminal ("Factor" en este caso), posea más de una
-* regla de producción asociada, se crea además de la estructura un enumerado
-* que identitifque cada reducción posible (cada regla de producción). Luego,
-* se agrega una instancia de este enumerado dentro del nodo del no-terminal.
-*
-* De este modo, al recorrer el AST, es posible determinar qué nodos hijos
-* posee según el valor de este enumerado.
-*/
-typedef enum {
-	EXPRESSION,
-	CONSTANT
-} FactorType;
+typedef struct Connect{
+    char *  title; //si tiene mensaje -> sino vacio
+    struct Expression * from;
+    struct Expression * to;
+} Connect;
 
-typedef struct {
-	FactorType type;
-	Expression * expression;
-} Factor;
+typedef struct ExpressionP
+{
+    struct Expression * expression;
+} ExpressionP;
 
-typedef enum {
-	ADDITION,
-	SUBTRACTION,
-	MULTIPLICATION,
-	DIVISION,
-	FACTOR
-} ExpressionType;
+typedef struct Lane{
+    char * title;
+    struct Expression **  expression; //lista de expresiones
+    struct Connect ** connect; //lista de conexiones
+} Lane;
 
-struct Expression {
-	ExpressionType type;
-	Expression * leftExpression;
-	Expression * rightExpression;
-};
+typedef struct Pool{
+    char * title;
+    struct Expression **  expression; //lista de expresiones
+    struct Connect ** connect;  //lista de conexiones
+    struct Lane ** lane; //arreglo de lanes
+} Pool;
 
-typedef struct {
-	Expression * expression;
+typedef struct PoolP
+{
+    struct Pool * pool;
+} PoolP;
+
+typedef struct Graph {
+    struct Pool ** pool; //arreglo de pools
+} Graph;
+
+typedef struct Gateway
+{
+    char * title;
+    struct Connect * connect1;
+    struct Connect * connect2;
+} Gateway;
+
+
+typedef struct Program{
+    Graph * graph;
 } Program;
 
 #endif

@@ -1,0 +1,12 @@
+start graph "hola" 
+    start pool "pool1"
+        start lane "lane1"
+            create event initial "startEvent" as $first
+            create event intermediate "middle" as $midde
+            connect $first to $middle
+        end lane
+    end pool
+end graph
+
+start pool "pool2"
+end pool

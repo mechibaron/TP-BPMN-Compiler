@@ -2,6 +2,7 @@
 #define SHARED_HEADER
 
 #include <stdio.h>
+#include <string.h>
 #include "../semantic-analysis/abstract-syntax-tree.h"
 
 // Descriptor del archivo de entrada que utiliza Bison.
@@ -12,7 +13,7 @@ extern FILE * yyout;
 
 // La cantidad de caracteres en el lexema "yytext". Se debe leer en las
 // acciones de Flex, no en Bison.
-extern int yyleng;
+extern size_t yyleng;
 
 // Variable global que contiene el número de la línea analizada.
 extern int yylineno;
@@ -41,21 +42,12 @@ typedef int token;
 
 // Estado global de toda la aplicación.
 typedef struct {
-
 	// Indica si la compilación tuvo problemas hasta el momento.
 	boolean succeed;
-
 	// Indica el resultado de la compilación (para la calculadora).
 	int result;
-
 	// El nodo raíz del AST (se usará cuando se implemente el backend).
 	Program * program;
-
-	// Agregar lo que sea necesario para el compilador.
-	// Agregar una pila para manipular scopes.
-	// Agregar una tabla de símbolos.
-	// ...
-
 } CompilerState;
 
 // El estado se define e inicializa en el archivo "main.c".

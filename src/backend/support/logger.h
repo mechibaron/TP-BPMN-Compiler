@@ -2,8 +2,10 @@
 #define LOGGER_HEADER
 
 #include <stdio.h>
+ #include <string.h>
 
-// Descomentar para loguear en modo DEBUG (con m�s detalle).
+
+// Descomentar para loguear en modo DEBUG (con mï¿½s detalle).
 // #define DEBUG true
 
 void Log(FILE * const stream, const char * prefix, const char * const format, const char * suffix, va_list arguments);

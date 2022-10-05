@@ -1,28 +1,26 @@
+
 %{
 
 #include "bison-actions.h"
+#include "../../backend/support/shared.h"
+#include "../../backend/semantic-analysis/abstract-syntax-tree.h"
 
 %}
 
 // Tipos de dato utilizados en las variables semánticas ($$, $1, $2, etc.).
-%union {
-	// No-terminales (backend).
-	/*
-	Program program;
-	Expression expression;
-	Factor factor;
-	Constant constant;
-	...
-	*/
+%union{
+	Program * program;
+	Expression * expression;
+	ExpressionP * expressionp;
+	Graph * graph;
+	Pool * pool;
+	PoolP * poolp;
+	Gateway * gateway;
+	Lane * lane;
+	Connect * connect;
 
-	// No-terminales (frontend).
-	int program;
-	int expression;
-	int factor;
-	int constant;
-
-	// Terminales.
-	token token;
+	char * string;
+	int token;
 	int integer;
 }
 
@@ -37,6 +35,7 @@
 %token <token> ACTIVITY
 %token <token> GATEWAY
 %token <token> CONNECT
+%token <token> CONNECT_TO
 %token <token> CURLY_BRACES_OPEN
 %token <token> CURLY_BRACES_CLOSE
 %token <token> ARTIFACT
@@ -53,23 +52,19 @@
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <program> program
 %type <expression> expression
+%type <expressionp> expressionp
 %type <graph> graph
 %type <pool> pool
 %type <poolp> poolp
 %type <gateway> gateway
 %type <lane> lane
 %type <connect> connect
-%type <expressionp> expressionp
-
-
-
-
  
-
+%start program
 
 %%
 
-program: expression											{ $$ = ProgramGrammarAction($1); }
+program: graph											{ $$ = ProgramGrammarAction($1); }
 	;
 
 graph: START GRAPH_ID NAME pool END GRAPH_ID				{ $$ = CreateGraphAction($3,$4); }
@@ -79,38 +74,37 @@ graph: START GRAPH_ID NAME pool END GRAPH_ID				{ $$ = CreateGraphAction($3,$4);
 pool: START POOL NAME lane expression END POOL poolp		{ $$ = CreatePoolAction($3,$4); }
 	;
 
-poolp: pool
-	|
+poolp: pool 												{ $$ = CreatePoolPAction() }
+	| /*lambda*/
 	;
 
 lane: START LANE NAME expression END LANE 					{ $$ = CreateLaneAction($3,$4); }
-	|
+	| /*lambda*/  
 	;
 
-//create event eventType eventTitle as eventVar
-//create activity activityTitle as activitytVar
-//create artifact artifactType artifactTitle as eventVar
-
-expression: CREATE EVENT EVENT_TYPE NAME AS VAR expressionp connect			{ $$ = CreateEventAction($3, $4, $6); }
-	| CREATE ACTIVITY NAME AS VAR	expressionp connect						{ $$ = CreateActivityAction($3, $5); }
-	| CREATE ARTIFACT ARTIFACT_TYPE NAME AS VAR expressionp connect			{ $$ = CreateArtifactAction($3, $4, $6); }
-	| gateway expressionp connect											{ ?????? }
+expression: CREATE EVENT EVENT_TYPE NAME AS VAR expressionp 			{ $$ = CreateEventAction($3, $4, $6); }
+	| CREATE ACTIVITY NAME AS VAR	expressionp 						{ $$ = CreateActivityAction($3, $5); }
+	| CREATE ARTIFACT ARTIFACT_TYPE NAME AS VAR expressionp 			{ $$ = CreateArtifactAction($3, $4, $6); }
+	| gateway expressionp 												{ $$ = $1 }
+	| connect															{ $$ = $1 }
 	;
 
 
-expressionp: expression
-	|
+expressionp: expression 													{ $$ = $1 }
+	| /*lambda*/ 
 	;
 
-gateway: CREATE GATEWAY NAME 
-		OPEN_CURLY_BRACES 
-			SET NAME CONNECT_TO expression
-			SET NAME CONNECT_TO expression		
+gateway: CREATE GATEWAY NAME |
+		CREATE GATEWAY NAME 
+		CURLY_BRACES_OPEN 
+			SET NAME CONNECT TO expression
+			SET NAME CONNECT TO expression		
 		CURLY_BRACES_CLOSE AS gateway										{ $$ = CreateGatewayAction($3, $6, $8, $10, $12, $15 ); }
 	;
 
-connect: CONNECT connect1 TO connect2										{$$ = CreateConnectionAction($2, $4); }
-	|
+connect: CONNECT VAR TO VAR							{$$ = CreateConnectionAction($2, $4); }
+	| expressionp 									{ $$ = $1 }
+	| /*lambda*/  
 	;
 
 %%

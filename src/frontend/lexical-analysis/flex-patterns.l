@@ -19,7 +19,7 @@
 /* Patrones reutilizables. */
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
-event_type      (start|intermediate|end)
+event_type      (initial|intermediate|final)
 artifact_type   (input|output|collection|storage)
 name            \".*\"
 var             $[a-zA-Z]+
@@ -60,7 +60,7 @@ var             $[a-zA-Z]+
 
 {event_type}                                { return EventTypePatternAction(yytext, yyleng); }
 
-{artifact}                                  { return ArtifactTypePatternAction(yytext, yyleng); }
+{artifact_type}                                  { return ArtifactTypePatternAction(yytext, yyleng); }
 
 {name}                                      { return NamePatternAction(yytext, yyleng); }
 

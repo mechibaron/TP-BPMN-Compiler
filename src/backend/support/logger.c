@@ -1,10 +1,8 @@
 #include "logger.h"
 #include <stdarg.h>
 #include <stdio.h>
+ #include <string.h>
 
-/**
- * Implementación de "logger.h".
- */
 
 void Log(FILE * const stream, const char * prefix, const char * const format, const char * suffix, va_list arguments) {
 	fprintf(stream, "%s", prefix);
