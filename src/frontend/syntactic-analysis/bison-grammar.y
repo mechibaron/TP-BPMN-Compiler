@@ -11,14 +11,12 @@
 %union{
 	Program * program;
 	Expression * expression;
-	ExpressionP * expressionp;
 	Create * create;
+	CreateP * createp;
 	Graph * graph;
 	Pool * pool;
-	PoolP * poolp;
 	Gateway * gateway;
 	Set * set;
-	SetP * setp;
 	Lane * lane;
 	Connect * connect;
 
@@ -55,14 +53,12 @@
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <program> program
 %type <expression> expression
-%type <expressionp> expressionp
 %type <create> create
+%type <createp> createp
 %type <graph> graph
 %type <pool> pool
-%type <poolp> poolp
 %type <gateway> gateway
 %type <set> set
-%type <setp> setp
 %type <lane> lane
 %type <connect> connect
  
@@ -73,45 +69,40 @@
 program: graph											{ $$ = ProgramGrammarAction($1); }
 	;
 
-graph: START GRAPH_ID NAME pool END GRAPH_ID				{ $$ = CreateGraphAction($3,$4); }
-	| START GRAPH_ID NAME expression END GRAPH_ID			{ $$ = CreateGraphAction($3,$4); }
+graph: START GRAPH_ID NAME pool END GRAPH_ID				{ $$ = CreateGraphActionPool($3,$4); }
+	| START GRAPH_ID NAME create END GRAPH_ID				{ $$ = CreateGraphAction($3,$4); }
 	;
 
-pool: START POOL NAME lane expressionp END POOL poolp		{ $$ = CreatePoolAction($3,$4); }
+pool: START POOL NAME lane createp END POOL					{ $$ = CreatePoolAction($3,$4, $5); }
+	| START POOL NAME lane createp END POOL pool			{ $$ = CreatePoolAction($3,$4, $5); }
 	;
 
-poolp: pool 												{ $$ = CreatePoolPAction() }
-	| /*lambda*/											{ $$ = 0 }
+lane: START LANE NAME create END LANE lane				{ $$ = CreateLaneAction($3,$4); }
+	| START LANE create END LANE lane					{ $$ = CreateLaneAction("",$3); }
+	| /*lambda*/  										{ $$ = 0 }
 	;
 
-lane: START LANE NAME expression END LANE lane				{ $$ = CreateLaneAction($3,$4); }
-	| START LANE expression END LANE lane					{ $$ = CreateLaneAction($3,$4); }
-	| /*lambda*/  											{ $$ = 0 }
-	;
-                  
-expression: create expressionp 	{ $$ = $1 }
-			;
-create:  CREATE EVENT EVENT_TYPE NAME AS VAR 			{ $$ = CreateEventAction($3, $4, $6); }
+create: expression  											{ $$ = 0 }
+		| expression create 								{ $$ = 0 }             
+
+createp: create 	  										{ $$ = 0 }
+		| /*lambda*/  										{ $$ = 0 }
+		;
+expression:  CREATE EVENT EVENT_TYPE NAME AS VAR 		{ $$ = CreateEventAction($3, $4, $6); }
 		| CREATE ACTIVITY NAME AS VAR 					{ $$ = CreateActivityAction($3, $5); }
 		| CREATE ARTIFACT ARTIFACT_TYPE NAME AS VAR  	{ $$ = CreateArtifactAction($3, $4, $6); }
-		| gateway										{ $$ = $1; }
-		| connect										{ $$ = $1; }
+		| gateway										{ $$ = 0; }
+		| connect										{ $$ = 0; }
 		;
 
-expressionp: expression 								{ $$ = $1 }
-	| /*lambda*/   										{ $$ = 0 }
-	;
 
-gateway: CREATE GATEWAY NAME  CURLY_BRACES_OPEN
+gateway: CREATE GATEWAY NAME CURLY_BRACES_OPEN
 			set	
-		 CURLY_BRACES_CLOSE AS VAR 						{ $$ = CreateGatewayAction($3, $4, $7); }
+		 CURLY_BRACES_CLOSE AS VAR 						{ $$ = CreateGatewayAction($3, $5, $8); }
 	;
 
-set: SET NAME CONNECT TO VAR setp 						{ $$ = CreateSetGetwayAction($2, $5); }
-	;
-
-setp: set 												{ $$ = $1 }
-	| /*lambda*/ 										{ $$ = 0 }
+set: SET NAME CONNECT TO VAR  						{ $$ = CreateSetGetwayAction($2, $5); }
+	|SET NAME CONNECT TO VAR set					{ $$ = CreateSetGetwayAction($2, $5); }
 	;
 
 

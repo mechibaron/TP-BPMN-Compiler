@@ -12,18 +12,18 @@
  */
 
 // Programa.
-int ProgramGrammarAction(const int value);
+Program * ProgramGrammarAction( Graph * value);
 
 // Expresión.
-int CreateGraphAction(const char* title, const char*value);
-int CreateEventAction(char* type, char* title, char* var);
-int CreateActivityAction(char* title, char* var);
-int CreateArtifactAction(char* type, char* title, char* var);
-int CreateGatewayAction(char* title, int* setToken, char* var );
-int CreatePoolAction(const char* pool, const char* lane);
-int CreateLaneAction(const char* title, const char* value);
-int CreateConnectionAction(const char* leftNode, const char* rightNode);
-int CreatePoolPAction();
-int CreateSetGetwayAction(char* title, char* setName1);
+Graph * CreateGraphActionPool(char* title,  Pool * pool);
+Graph * CreateGraphAction( char* title,  Create * value);
+Pool * CreatePoolAction( char* poolName,  Lane * lane,  CreateP * create);
+Lane * CreateLaneAction( char* title,  Create * expression);
+Expression * CreateEventAction(char* type, char* title, char* var);
+Expression * CreateActivityAction(char* title, char* var);
+Expression * CreateArtifactAction(char* type, char* title, char* var);
+Gateway * CreateGatewayAction(char* title,  Set * set,  char* var );
+Set * CreateSetGetwayAction(char* title, char* var);
+Connect * CreateConnectionAction( char* leftVar, char* rightVar);
 
 #endif

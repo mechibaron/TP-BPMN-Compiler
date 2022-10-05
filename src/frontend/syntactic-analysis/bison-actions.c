@@ -28,77 +28,88 @@ void yyerror(const char * string) {
 * indica que efectivamente el programa de entrada se pudo generar con esta
 * gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
 */
-int ProgramGrammarAction(const int value) {
-	LogDebug("\tProgramGrammarAction(%d)", value);
-	/*
-	* "state" es una variable global que almacena el estado del compilador,
-	* cuyo campo "succeed" indica si la compilación fue o no exitosa, la cual
-	* es utilizada en la función "main".
-	*/
+Program * ProgramGrammarAction( Graph * value){
+	LogDebug("\tProgramGrammarAction(%d)", (*value).name);
+
+
 	state.succeed = true;
-	/*
-	* Por otro lado, "result" contiene el resultado de aplicar el análisis
-	* sintáctico mediante Bison, y almacenar el nood raíz del AST construido
-	* en esta variable. Para el ejemplo de la calculadora, no hay AST porque
-	* la expresión se computa on-the-fly, y es la razón por la cual esta
-	* variable es un simple entero, en lugar de un nodo.
-	*/
-	state.result = value;
-	return value;
+
+	Program program;
+	program = (Program){.graph=value};
+	return &program;
 }
 
-int CreateGraphAction(const char* title, const char*value) {
+Graph * CreateGraphActionPool( char* title,  Pool * pool){
 	LogDebug("\tCreateGraphAction(%s)", title);
-	return 0;
+	Graph graph;
+	graph = (Graph){.name = title, .pool = &pool, .expression = NULL};	
+	return &graph;
+}
+
+Graph * CreateGraphAction( char* title,  Create * expression){
+	LogDebug("\tCreateGraphAction(%s)", title);
+
+	Graph graph;
+	graph = (Graph){.name = title, .pool = NULL, .expression = &(*expression).expression};	
+	return &graph;
 	// return Graph(value);
 }
 
-int CreateEventAction(char* type, char* title, char* var){
+Expression * CreateEventAction(char* type, char* title, char* var){
 	LogDebug("\tCreateEventAction(%s)", title);
-	return 0;
-	// return Event(type, title, var);
+	
+	Expression exp;
+	exp = (Expression){.type = type, .title = title, .varName = var};	
+	return &exp;
 }
 
-int CreateActivityAction(char* title, char* var){
+Expression * CreateActivityAction(char* title, char* var){
 	LogDebug("\tCreateActivityAction(%s)", title);
-	return 0;
+	Expression exp;
+	exp = (Expression){.type = "", .title = title, .varName = var};	
+	return &exp;
 }
-int CreateArtifactAction(char* type, char* title, char* var){
-	LogDebug("\tCreateArtifactAction(%s)", title);
-	return 0;
+Expression * CreateArtifactAction(char* type, char* title, char* var){
+	Expression exp;
+	exp = (Expression){.type = type, .title = title, .varName = var};	
+	return &exp;
 }
 
-int CreateGatewayAction(char* title, int* setToken, char* var ){
+Gateway * CreateGatewayAction(char * title,  Set * set,  char* var ){
 	LogDebug("\tCreateGatewayAction(%s)", title);
+	Gateway gateway;
+	gateway = (Gateway){.title = title, .sets = &set, .varName = var};	
 	return 0;
 }
 
-int CreatePoolAction(const char* pool, const char* lane) {
+Pool * CreatePoolAction( char* poolName,  Lane * lane,  CreateP * create){
 	LogDebug("\tCreatePoolAction");
-	return 0;
-	// return Pool(leftValue, rightValue);
+	Pool pool;
+	pool = (Pool){.title = poolName, .lane = &lane, .expression = &(*create).create.expression};		
+	return &pool;
 }
 
-int CreateLaneAction(const char* title, const char* value) {
+Lane * CreateLaneAction( char* title,  Create * expression){
 	LogDebug("\tCreateLaneAction(%s)", title);
-	return 0;
-	// return Lane(value);
+	Lane lane;
+	lane = (Lane){.title = title, .expression = &(*expression).expression};	
+	return &lane;
 }
 
-int CreateConnectionAction(const char* leftNode, const char* rightNode){
+Connect * CreateConnectionAction( char* leftVar,  char* rightVar){
 	LogDebug("\tCreateConnectionAction");
-	return 0;
-	// return Connection(leftNode, rightNode)
-}
-
-int CreatePoolPAction(){
-	LogDebug("\tCreateConnectionAction");
-	return 0;
-	// return Connection(leftNode, rightNode)
+	Connect connect;
+	connect = (Connect){.from = leftVar, .to = rightVar};	
+	return &connect;
+		// return Connection(leftNode, rightNode)
 }
 
 
-int CreateSetGetwayAction(char* title, char* setName1){
+Set * CreateSetGetwayAction(char* title, char* var){
 		LogDebug("\tCreateSetGatewayAction");
+	Set set;
+	Connect connect;
+	connect = (Connect){.from = NULL, .to = var, .title= title};	
+	set = (Set){.connect1 = &connect };
 	return 0;
 }

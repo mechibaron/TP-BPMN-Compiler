@@ -10,42 +10,36 @@ typedef struct Expression
     char * varName;
 } Expression;
 
-typedef struct ExpressionP
-{
-    struct Expression * expression;
-} ExpressionP;
-
 typedef struct Create {
     struct Expression expression;
 }Create;
 
+typedef struct CreateP {
+    struct Create create;
+}CreateP;
+
 
 typedef struct Connect{
     char *  title; //si tiene mensaje -> sino vacio
-    struct Expression * from;
-    struct Expression * to;
+    char * from;
+    char * to;
 } Connect;
 
 typedef struct Lane{
     char * title;
-    struct Expression **  expression; //lista de expresiones
-    struct Connect ** connect; //lista de conexiones
+    struct Expression *  expression; //lista de expresiones
 } Lane;
 
 typedef struct Pool{
     char * title;
-    struct Expression **  expression; //lista de expresiones
-    struct Connect ** connect;  //lista de conexiones
+    struct Expression *  expression; //lista de expresiones
     struct Lane ** lane; //arreglo de lanes
 } Pool;
 
-typedef struct PoolP
-{
-    struct Pool * pool;
-} PoolP;
-
 typedef struct Graph {
+    char * name;
     struct Pool ** pool; //arreglo de pools
+    struct Expression *  expression; //lista de expresiones
 } Graph;
 
 typedef struct Program{
@@ -56,13 +50,10 @@ typedef struct Set {
     struct Connect * connect1;
 }Set;
 
-typedef struct SetP{
-    struct Set * set;
-}SetP;
-
 typedef struct Gateway
 {
     char * title;
     struct Set ** sets;
+    char * varName;
 } Gateway;
 #endif
