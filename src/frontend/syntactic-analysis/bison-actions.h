@@ -11,6 +11,11 @@
  * abstracta (i.e., el AST).
  */
 
+/** Aclaración: se decidió comentar las siguientes lineas 
+ * ya que no era necesario para la entrega 2 (Frontend), pero 
+ * será utilizado en la próxima entrega (Backend)
+ */
+
 // Programa.
 int ProgramGrammarAction( Graph * value);
 

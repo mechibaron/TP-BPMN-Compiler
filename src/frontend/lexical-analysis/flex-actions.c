@@ -90,7 +90,6 @@ token ArtifactPatternAction(const char * lexeme) {
 
 token GatewayPatternAction(const char * lexeme) {
 	LogDebug("GatewayPatternAction: '%s' ", lexeme);
-	// yylval.token= atoi(lexeme);
 	yylval.token= GATEWAY;
 	return GATEWAY;
 }
@@ -125,17 +124,11 @@ token CloseCurlyBracesPatternAction(const char * lexeme) {
 	return CURLY_BRACES_CLOSE;
 }
 
+/** Aclaración: las siguientes funciones tienen código comentado 
+ * ya que no era necesario para la entrega 2 (Frontend), pero 
+ * será utilizado en la próxima entrega (Backend)
+ */
 
-/*
-token IntegerPatternAction(const char * lexeme, const int length) {
-	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
-	yylval.integer = atoi(lexeme);
-	return INTEGER;
-}
-*/
-
-
-//???
 token NamePatternAction(const char * lexeme, const int length) {
 	LogDebug("NamePatternAction: '%s' (length = %d).", lexeme, length);
 	// char * aux = malloc(length+1);
@@ -173,25 +166,6 @@ token VarPatternAction(const char * lexeme, const int length) {
 	return VAR;
 }
 
-
-
-// token MultiplicationOperatorPatternAction(const char * lexeme) {
-// 	LogDebug("MultiplicationOperatorPatternAction: '%s'.", lexeme);
-// 	yylval.token = MUL;
-// 	return MUL;
-// }
-
-// // token OpenParenthesisPatternAction(const char * lexeme) {
-// // 	LogDebug("OpenParenthesisPatternAction: '%s'.", lexeme);
-// // 	yylval.token = OPEN_PARENTHESIS;
-// // 	return OPEN_PARENTHESIS;
-// }
-
-// // token SubtractionOperatorPatternAction(const char * lexeme) {
-// // 	LogDebug("SubtractionOperatorPatternAction: '%s'.", lexeme);
-// // 	yylval.token = SUB;
-// // 	return SUB;
-// }
 
 token UnknownPatternAction(const char * lexeme, const int length) {
 	LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);

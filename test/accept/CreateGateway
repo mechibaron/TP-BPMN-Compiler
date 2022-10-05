@@ -2,7 +2,7 @@ start graph "gatewayGraph"
     start pool "pool1"
         start lane "lane1"
             create event initial "startEvent" as $first
-            create event intermediate "middle" as $midde
+            create event intermediate "middle" as $middle
             create event final "lastEvent" as $last
             connect $first to $middle
             create gateway "gatewayInfo" {

@@ -2,7 +2,7 @@ start graph "poolInPool"
     start pool "pool1"
         start pool "pool2"
             create event initial "startEvent" as $first
-            create event intermediate "middle" as $midde
+            create event intermediate "middle" as $middle
             connect $first to $middle
         end pool
     end pool    

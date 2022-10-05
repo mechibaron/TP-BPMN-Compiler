@@ -28,6 +28,10 @@ void yyerror(const char * string) {
 * indica que efectivamente el programa de entrada se pudo generar con esta
 * gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
 */
+/** Aclaración: las siguientes funciones tienen código comentado 
+ * ya que no era necesario para la entrega 2 (Frontend), pero 
+ * será utilizado en la próxima entrega (Backend)
+ */
 int ProgramGrammarAction( Graph * value){
 // int ProgramGrammarAction( int value){
 

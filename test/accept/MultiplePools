@@ -1,12 +1,12 @@
 start graph "multiplePools" 
     start pool "pool1"
         create event initial "startEvent" as $first
-        create event intermediate "middle" as $midde
+        create event intermediate "middle" as $middle
         connect $first to $middle
     end pool
     start pool "pool2"
         create event initial "startEvent" as $first2
-        create event intermediate "middle" as $midde2
+        create event intermediate "middle" as $middle2
         connect $first to $middle2
     end pool
 end graph

@@ -1,5 +1,5 @@
 # TP-BPMN-Compiler
-[![✗](https://img.shields.io/badge/Release-v0.2.0-ffb600.svg?style=for-the-badge)](https://github.com/agustin-golmar/Flex-Bison-Compiler/releases)
+https://github.com/mechibaron/TP-BPMN-Compiler.git
 
 Un compilador construido con Flex y Bison.
 
@@ -41,7 +41,7 @@ Luego se deberá abrir la solución generada `bin\Compiler.sln` con el IDE _Micr
 
 ## Ejecución
 
-Luego, ejecute el compilador desde el directorio raíz del proyecto, o desde cualquier otro lugar indicando el path hacia el script `start.sh` y pasando por parámetro el path hacia el programa a compilar:
+Luego, ejecute el ompilador desde el directorio raíz del proyecto, o desde cualquier otro lugar indicando el path hacia el script `start.sh` y pasando por parámetro el path hacia el programa a compilar:
 Dentro de la carpata test figuran dos carpetas con los casos de uso que acepta y rechaza el lenguje. 
 
 ```bash

@@ -1,5 +1,5 @@
 start graph "connections" 
-    create event initial "a" as $vara
-    create event final "b" as $varb
-    connect $vara to $varab
+    create event initial "a" as $varA
+    create event final "b" as $varB
+    connect $varA to $varaB
 end graph

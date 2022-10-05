@@ -2,7 +2,7 @@ start graph "noNamedLane"
     start pool "pool1"
         start lane 
             create event initial "startEvent" as $first
-            create event intermediate "middle" as $midde
+            create event intermediate "middle" as $middle
             connect $first to $middle 
         end lane
     end pool

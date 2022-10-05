@@ -2,12 +2,12 @@ start graph "poolWithMultiLanes"
     start pool "pool1"
         start lane "lane1"
             create event initial "startEvent" as $first
-            create event intermediate "middle" as $midde
+            create event intermediate "middle" as $middle
             connect $first to $middle
         end lane
         start lane "lane2"
             create event initial "startEvent" as $first1
-            create event intermediate "middle" as $midde2
+            create event intermediate "middle" as $middle2
             connect $first to $middle2
         end lane
         connect $first to $first1

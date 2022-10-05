@@ -1,6 +1,6 @@
 start graph "openPool" 
     start pool "pool1"
         create event initial "startEvent" as $first
-        create event intermediate "middle" as $midde
+        create event intermediate "middle" as $middle
         connect $first to $middle
 end graph

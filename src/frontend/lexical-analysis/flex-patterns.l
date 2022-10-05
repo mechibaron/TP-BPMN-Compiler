@@ -60,7 +60,7 @@ var             $[a-zA-Z0-9]+
 
 {event_type}                                { return EventTypePatternAction(yytext, yyleng); }
 
-{artifact_type}                                  { return ArtifactTypePatternAction(yytext, yyleng); }
+{artifact_type}                             { return ArtifactTypePatternAction(yytext, yyleng); }
 
 {name}                                      { return NamePatternAction(yytext, yyleng); }
 

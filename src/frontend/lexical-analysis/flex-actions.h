@@ -19,6 +19,7 @@
  * largo de aquello que se va a almacenar.
  */
 
+
 // Bloque de comentarios multilínea.
 void BeginCommentPatternAction();
 void EndCommentPatternAction();

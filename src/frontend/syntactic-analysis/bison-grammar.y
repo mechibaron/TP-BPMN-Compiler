@@ -1,3 +1,5 @@
+//Aclaracion: las lineas comentadas son parte del desarrollo del backend, por eso se las 
+//comentó para la entrega del Frontend
 
 %{
 
