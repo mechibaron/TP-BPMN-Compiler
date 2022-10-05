@@ -1,4 +1,4 @@
-start graph "artifactGraph"
+start graph "activityGraph"
     create event initial "Grupo de trabajo activo" as $first
     create event intermediate "Viernes 6 pm" as $clock
     create event final "Grupo de trabajo inactivo" as $last

@@ -1,0 +1,13 @@
+start graph "gatewaygraph" 
+    start pool "pool1"
+        start lane "lane1"
+            create event initial "startEvent" as $first
+            create event intermediate "middle" as $midde
+            create event final "lastEvent" as $last
+            connect $first to $middle
+            create gateway "gatewayInfo" {
+                set "si" connect to $last
+            } as $gate
+        end lane
+    end pool
+end graph

@@ -96,3 +96,8 @@ int CreatePoolPAction(){
 	return 0;
 	// return Connection(leftNode, rightNode)
 }
+
+int CreateGatewayAction2(char* title, char* setName1, char* exp1, char* setName2, char* exp2){
+	LogDebug("\tCreateGatewayAction");
+	return 0;
+}

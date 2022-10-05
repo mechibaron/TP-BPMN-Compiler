@@ -78,7 +78,8 @@ poolp: pool 												{ $$ = CreatePoolPAction() }
 	| /*lambda*/
 	;
 
-lane: START LANE NAME expression END LANE 					{ $$ = CreateLaneAction($3,$4); }
+lane: START LANE NAME expression END LANE lane				{ $$ = CreateLaneAction($3,$4); }
+	| START LANE expression END LANE lane					{ $$ = CreateLaneAction($3,$4); }
 	| /*lambda*/  
 	;
 
@@ -97,7 +98,10 @@ expressionp: expression 													{ $$ = $1 }
 gateway: CREATE GATEWAY NAME  CURLY_BRACES_OPEN
 			SET NAME CONNECT TO VAR
 			SET NAME CONNECT TO VAR		
-		CURLY_BRACES_CLOSE AS VAR										{ $$ = CreateGatewayAction($3, $6, $8, $10, $12, $15 ); }
+		 CURLY_BRACES_CLOSE AS VAR										{ $$ = CreateGatewayAction($3, $6, $8, $10, $12, $15 ); }
+		|CREATE GATEWAY NAME  CURLY_BRACES_OPEN
+			SET NAME CONNECT TO VAR	
+		 CURLY_BRACES_CLOSE AS VAR										{ $$ = CreateGatewayAction2($3, $6, $8, $10, $12 ); }
 	;
 
 connect: CONNECT VAR TO VAR expressionp						{$$ = CreateConnectionAction($2, $4); }

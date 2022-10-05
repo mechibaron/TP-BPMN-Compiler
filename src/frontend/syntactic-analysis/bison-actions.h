@@ -24,5 +24,6 @@ int CreatePoolAction(const char* pool, const char* lane);
 int CreateLaneAction(const char* title, const char* value);
 int CreateConnectionAction(const char* leftNode, const char* rightNode);
 int CreatePoolPAction();
+int CreateGatewayAction2(char* title, char* setName1, char* exp1, char* setName2, char* exp2);
 
 #endif
