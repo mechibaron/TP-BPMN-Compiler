@@ -39,7 +39,7 @@ int ProgramGrammarAction( Graph * value){
 	// Program program;
 	// program = (Program){.graph=value};
 	// return &program;
-	state.result = value;
+	// state.result = value;
 	return 0;
 }
 
