@@ -90,7 +90,8 @@ token ArtifactPatternAction(const char * lexeme) {
 
 token GatewayPatternAction(const char * lexeme) {
 	LogDebug("GatewayPatternAction: '%s' ", lexeme);
-	yylval.token= atoi(lexeme);
+	// yylval.token= atoi(lexeme);
+	yylval.token= GATEWAY;
 	return GATEWAY;
 }
 
@@ -137,34 +138,38 @@ token IntegerPatternAction(const char * lexeme, const int length) {
 //???
 token NamePatternAction(const char * lexeme, const int length) {
 	LogDebug("NamePatternAction: '%s' (length = %d).", lexeme, length);
-	char * aux = malloc(length+1);
-	strncpy(aux, lexeme, length);
-	yylval.string = aux;
+	// char * aux = malloc(length+1);
+	// strncpy(aux, lexeme, length);
+	// yylval.string = aux;
+	yylval.token = NAME;
 	return NAME;
 }
 
 token EventTypePatternAction(const char * lexeme, const int length) {
 	LogDebug("EventTypePatternAction: '%s' (length = %d).", lexeme, length);
-	char * aux = malloc(length+1);
-	strncpy(aux, lexeme, length);
-	yylval.string = aux;
+	// char * aux = malloc(length+1);
+	// strncpy(aux, lexeme, length);
+	// yylval.string = aux;
+		yylval.token = EVENT_TYPE;
 	return EVENT_TYPE;
 }
 
 token ArtifactTypePatternAction(const char * lexeme, const int length) {
 	LogDebug("rtifactTypePatternAction: '%s' (length = %d).", lexeme, length);
-	char * aux = malloc(length+1);
-	strncpy(aux, lexeme, length);
-	yylval.string = aux;
+	// char * aux = malloc(length+1);
+	// strncpy(aux, lexeme, length);
+	// yylval.string = aux;
+		yylval.token = ARTIFACT_TYPE;
 	return ARTIFACT_TYPE;
 }
 
 
 token VarPatternAction(const char * lexeme, const int length) {
 	LogDebug("VarPatternAction: '%s' (length = %d).", lexeme, length);
-	char * aux = malloc(length+1);
-	strncpy(aux, lexeme, length);
-	yylval.string = aux;
+	// char * aux = malloc(length+1);
+	// strncpy(aux, lexeme, length);
+	// yylval.string = aux;
+		yylval.token = VAR;
 	return VAR;
 }
 
