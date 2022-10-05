@@ -74,38 +74,37 @@ graph: START GRAPH_ID NAME pool END GRAPH_ID				{ $$ = CreateGraphAction($3,$4);
 pool: START POOL NAME lane expression END POOL poolp		{ $$ = CreatePoolAction($3,$4); }
 	;
 
-poolp: pool
-	|
+poolp: pool 												{ $$ = CreatePoolPAction() }
+	| /*lambda*/
 	;
 
 lane: START LANE NAME expression END LANE 					{ $$ = CreateLaneAction($3,$4); }
-	|
+	| /*lambda*/  
 	;
 
-//create event eventType eventTitle as eventVar
-//create activity activityTitle as activitytVar
-//create artifact artifactType artifactTitle as eventVar
-
-expression: CREATE EVENT EVENT_TYPE NAME AS VAR expressionp connect			{ $$ = CreateEventAction($3, $4, $6); }
-	| CREATE ACTIVITY NAME AS VAR	expressionp connect						{ $$ = CreateActivityAction($3, $5); }
-	| CREATE ARTIFACT ARTIFACT_TYPE NAME AS VAR expressionp connect			{ $$ = CreateArtifactAction($3, $4, $6); }
-	| gateway expressionp connect											{ ?????? }
+expression: CREATE EVENT EVENT_TYPE NAME AS VAR expressionp 			{ $$ = CreateEventAction($3, $4, $6); }
+	| CREATE ACTIVITY NAME AS VAR	expressionp 						{ $$ = CreateActivityAction($3, $5); }
+	| CREATE ARTIFACT ARTIFACT_TYPE NAME AS VAR expressionp 			{ $$ = CreateArtifactAction($3, $4, $6); }
+	| gateway expressionp 												{ $$ = $1 }
+	| connect															{ $$ = $1 }
 	;
 
 
-expressionp: expression
-	|
+expressionp: expression 													{ $$ = $1 }
+	| /*lambda*/ 
 	;
 
-gateway: CREATE GATEWAY NAME 
+gateway: CREATE GATEWAY NAME |
+		CREATE GATEWAY NAME 
 		CURLY_BRACES_OPEN 
-			SET NAME CONNECT_TO expression
-			SET NAME CONNECT_TO expression		
+			SET NAME CONNECT TO expression
+			SET NAME CONNECT TO expression		
 		CURLY_BRACES_CLOSE AS gateway										{ $$ = CreateGatewayAction($3, $6, $8, $10, $12, $15 ); }
 	;
 
-connect: CONNECT expression TO expression									{$$ = CreateConnectionAction($2, $4); }
-	|
+connect: CONNECT VAR TO VAR							{$$ = CreateConnectionAction($2, $4); }
+	| expressionp 									{ $$ = $1 }
+	| /*lambda*/  
 	;
 
 %%

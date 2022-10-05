@@ -19,7 +19,7 @@
 /* Patrones reutilizables. */
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
-event_type      (start|intermediate|end)
+event_type      (initial|intermediate|final)
 artifact_type   (input|output|collection|storage)
 name            \".*\"
 var             $[a-zA-Z]+

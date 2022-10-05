@@ -90,3 +90,9 @@ int CreateConnectionAction(const char* leftNode, const char* rightNode){
 	return 0;
 	// return Connection(leftNode, rightNode)
 }
+
+int CreatePoolPAction(){
+	LogDebug("\tCreateConnectionAction");
+	return 0;
+	// return Connection(leftNode, rightNode)
+}

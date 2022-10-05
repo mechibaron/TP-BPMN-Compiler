@@ -1,0 +1,6 @@
+start graph "hola" 
+create event initial "a" as $vara
+create event final "b" as $varb
+connect $vara to $varab
+connect $varb to $varaa
+end graph
