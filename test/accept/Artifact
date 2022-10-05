@@ -1,0 +1,16 @@
+start graph "artifactGraph"
+    create event initial "Grupo de trabajo activo" as $first
+    create event intermediate "Viernes 6 pm" as $clock
+    create event final "Grupo de trabajo inactivo" as $last
+    create activity "Verificar el estado del grupo de trabajo" as $activity1
+    create activity "Enviar lista actual de asuntos" as $activity2 
+    create gateway "gatewayInfo" {
+        set "si" connect to $activity2
+        set "no" connect to $last
+    } as $gate
+    create artifact output "Lista de asuntos" as $artifact1
+    connect $first to $clock
+    connect $activity1 to $gate 
+    connect $activity2 to $clock 
+    connect $artifact1 to $activity2
+end graph

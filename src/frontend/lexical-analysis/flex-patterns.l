@@ -22,7 +22,7 @@ whitespace		[ \f\n\r\t\v]
 event_type      (initial|intermediate|final)
 artifact_type   (input|output|collection|storage)
 name            \".*\"
-var             $[a-zA-Z]+
+var             $[a-zA-Z0-9]+
 
 %%
 

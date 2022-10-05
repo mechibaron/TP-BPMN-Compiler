@@ -3,10 +3,12 @@ start graph "hola"
         start lane "lane1"
             create event initial "startEvent" as $first
             create event intermediate "middle" as $midde
+            create event final "lastEvent" as $last
             connect $first to $middle
+            create gateway "gatewayInfo" {
+                set "si" connect to $last
+                set "no" connect to $first
+            } as $gate
         end lane
     end pool
 end graph
-
-start pool "pool2"
-end pool

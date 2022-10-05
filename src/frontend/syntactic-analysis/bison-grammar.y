@@ -94,16 +94,13 @@ expressionp: expression 													{ $$ = $1 }
 	| /*lambda*/ 
 	;
 
-gateway: CREATE GATEWAY NAME |
-		CREATE GATEWAY NAME 
-		CURLY_BRACES_OPEN 
-			SET NAME CONNECT TO expression
-			SET NAME CONNECT TO expression		
-		CURLY_BRACES_CLOSE AS gateway										{ $$ = CreateGatewayAction($3, $6, $8, $10, $12, $15 ); }
+gateway: CREATE GATEWAY NAME  CURLY_BRACES_OPEN
+			SET NAME CONNECT TO VAR
+			SET NAME CONNECT TO VAR		
+		CURLY_BRACES_CLOSE AS VAR										{ $$ = CreateGatewayAction($3, $6, $8, $10, $12, $15 ); }
 	;
 
-connect: CONNECT VAR TO VAR							{$$ = CreateConnectionAction($2, $4); }
-	| expressionp 									{ $$ = $1 }
+connect: CONNECT VAR TO VAR expressionp						{$$ = CreateConnectionAction($2, $4); }
 	| /*lambda*/  
 	;
 

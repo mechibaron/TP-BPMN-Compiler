@@ -1,0 +1,6 @@
+start graph "hola" 
+    start lane "lane1"
+        create event initial "startEvent" as $first            
+        create event intermediate "middle" as $middle
+    end lane
+end graph

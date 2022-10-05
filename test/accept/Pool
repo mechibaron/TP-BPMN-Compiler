@@ -3,4 +3,5 @@ start graph "hola"
         create event initial "startEvent" as $first
         create event intermediate "middle" as $midde
         connect $first to $middle
+    end pool
 end graph
