@@ -13,12 +13,12 @@
 	Expression * expression;
 	ExpressionP * expressionp;
 	Create * create;
-	Set * set;
-	SetP * setp;
 	Graph * graph;
 	Pool * pool;
 	PoolP * poolp;
 	Gateway * gateway;
+	Set * set;
+	SetP * setp;
 	Lane * lane;
 	Connect * connect;
 
@@ -81,12 +81,12 @@ pool: START POOL NAME lane expressionp END POOL poolp		{ $$ = CreatePoolAction($
 	;
 
 poolp: pool 												{ $$ = CreatePoolPAction() }
-	| /*lambda*/
+	| /*lambda*/											{ $$ = 0 }
 	;
 
 lane: START LANE NAME expression END LANE lane				{ $$ = CreateLaneAction($3,$4); }
 	| START LANE expression END LANE lane					{ $$ = CreateLaneAction($3,$4); }
-	| /*lambda*/  
+	| /*lambda*/  											{ $$ = 0 }
 	;
                   
 expression: create expressionp 	{ $$ = $1 }
@@ -99,7 +99,7 @@ create:  CREATE EVENT EVENT_TYPE NAME AS VAR 			{ $$ = CreateEventAction($3, $4,
 		;
 
 expressionp: expression 								{ $$ = $1 }
-	| /*lambda*/ 
+	| /*lambda*/   										{ $$ = 0 }
 	;
 
 gateway: CREATE GATEWAY NAME  CURLY_BRACES_OPEN
@@ -110,7 +110,8 @@ gateway: CREATE GATEWAY NAME  CURLY_BRACES_OPEN
 set: SET NAME CONNECT TO VAR setp 						{ $$ = CreateSetGetwayAction($2, $5); }
 	;
 
-setp: set | /*lambda*/
+setp: set 												{ $$ = $1 }
+	| /*lambda*/ 										{ $$ = 0 }
 	;
 
 
