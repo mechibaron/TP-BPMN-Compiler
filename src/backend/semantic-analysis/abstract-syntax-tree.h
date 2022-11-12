@@ -3,9 +3,16 @@
 
 #include "../support/shared.h"
 
+typedef enum ExpressionType{
+    EVENT_EXP,
+    ACTIVITY_EXP,
+    ARTIFACT_EXP
+} ExpressionType;
+
 typedef struct Expression
 {
-    char * type; //Activity es una expression y no tiene tipo
+    ExpressionType exp; //event - activity - artifact
+    char* exp_type;  //event can be: initial - intermidiate - final,  output-
     char * title;
     char * varName;
 } Expression;
@@ -27,19 +34,21 @@ typedef struct Connect{
 
 typedef struct Lane{
     char * title;
-    struct Expression *  expression; //lista de expresiones
+    struct Expression *  expression; 
+    struct Lane * next;
 } Lane;
 
 typedef struct Pool{
     char * title;
-    struct Expression *  expression; //lista de expresiones
-    struct Lane ** lane; //arreglo de lanes
+    struct Expression *  expression; 
+    struct Lane * lane; 
+    struct Pool * next;
 } Pool;
 
 typedef struct Graph {
     char * name;
-    struct Pool ** pool; //arreglo de pools
-    struct Expression *  expression; //lista de expresiones
+    struct Pool * pool;
+    struct Expression *  expression; 
 } Graph;
 
 typedef struct Program{
@@ -48,12 +57,13 @@ typedef struct Program{
 
 typedef struct Set {
     struct Connect * connect1;
+    struct Set * next;
 }Set;
 
 typedef struct Gateway
 {
     char * title;
-    struct Set ** sets;
+    struct Set * set;
     char * varName;
 } Gateway;
 #endif

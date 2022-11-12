@@ -26,8 +26,6 @@ void EndCommentPatternAction() {
 	LogDebug("EndCommentPatternAction.");
 }
 
-
-
 token StartPatternAction(const char * lexeme) {
 	LogDebug("StartPatternAction: '%s'.", lexeme);
 	yylval.token = START;
@@ -131,38 +129,54 @@ token CloseCurlyBracesPatternAction(const char * lexeme) {
 
 token NamePatternAction(const char * lexeme, const int length) {
 	LogDebug("NamePatternAction: '%s' (length = %d).", lexeme, length);
-	// char * aux = malloc(length+1);
-	// strncpy(aux, lexeme, length);
-	// yylval.string = aux;
-	yylval.token = NAME;
+	char * aux = (char *) calloc(length + 1, sizeof(char));
+	if (aux == NULL){
+		printf("Error in malloc\n");
+		return -1;
+	}
+	strncpy(aux, lexeme, length);
+	yylval.string = aux;
+	free(aux);
 	return NAME;
 }
 
 token EventTypePatternAction(const char * lexeme, const int length) {
 	LogDebug("EventTypePatternAction: '%s' (length = %d).", lexeme, length);
-	// char * aux = malloc(length+1);
-	// strncpy(aux, lexeme, length);
-	// yylval.string = aux;
-		yylval.token = EVENT_TYPE;
+	char * aux = (char *) calloc(length + 1, sizeof(char));
+	if (aux == NULL){
+		printf("Error in malloc\n");
+		return -1;
+	}
+	strncpy(aux, lexeme, length);
+	yylval.string = aux;
+	free(aux);
 	return EVENT_TYPE;
 }
 
 token ArtifactTypePatternAction(const char * lexeme, const int length) {
-	LogDebug("rtifactTypePatternAction: '%s' (length = %d).", lexeme, length);
-	// char * aux = malloc(length+1);
-	// strncpy(aux, lexeme, length);
-	// yylval.string = aux;
-		yylval.token = ARTIFACT_TYPE;
+	LogDebug("ArtifactTypePatternAction: '%s' (length = %d).", lexeme, length);
+	char * aux = (char *) calloc(length + 1, sizeof(char));
+	if (aux == NULL){
+		printf("Error in malloc\n");
+		return -1;
+	}
+	strncpy(aux, lexeme, length);
+	yylval.string = aux;
+	free(aux);
 	return ARTIFACT_TYPE;
 }
 
 
 token VarPatternAction(const char * lexeme, const int length) {
 	LogDebug("VarPatternAction: '%s' (length = %d).", lexeme, length);
-	// char * aux = malloc(length+1);
-	// strncpy(aux, lexeme, length);
-	// yylval.string = aux;
-		yylval.token = VAR;
+	char * aux = (char *) calloc(length + 1, sizeof(char));
+	if (aux == NULL){
+		printf("Error in malloc\n");
+		return -1;
+	}
+	strncpy(aux, lexeme, length);
+	yylval.string = aux;
+	free(aux);
 	return VAR;
 }
 

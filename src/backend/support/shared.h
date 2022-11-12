@@ -50,6 +50,8 @@ typedef struct {
 	Program * program;
 } CompilerState;
 
+
+
 // El estado se define e inicializa en el archivo "main.c".
 extern CompilerState state;
 

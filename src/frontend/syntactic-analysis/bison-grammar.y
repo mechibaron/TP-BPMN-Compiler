@@ -12,16 +12,16 @@
 // Tipos de dato utilizados en las variables semánticas ($$, $1, $2, etc.).
 %union{
 	
-	Program program;
-	Expression expression;
-	Create create;
-	CreateP createp;
-	Graph graph;
-	Pool pool;
-	Gateway gateway;
-	Set set;
-	Lane lane;
-	Connect connect;
+	Program  program;
+	Expression * expression;
+	Create * create;
+	CreateP * createp;
+	Graph * graph;
+	Pool * pool;
+	Gateway * gateway;
+	Set * set;
+	Lane * lane;
+	Connect * connect;
 
 	char * string;
 	int token;
@@ -68,47 +68,47 @@
 
 %%
 
-program: graph											/*{ $$ = ProgramGrammarAction(NULL); }*/ { $$ = ProgramGrammarAction($1); }
+program: graph											{ $$ = ProgramGrammarAction($1); }
 	;
 
-graph: START GRAPH_ID NAME pool END GRAPH_ID				{ $$ = CreateGraphActionPool($3,$4); }/* { $$ = CreateGraphActionPool(NULL,NULL); }*/
-	| START GRAPH_ID NAME create END GRAPH_ID				{ $$ = CreateGraphAction($3,$4); } /* { $$ = CreateGraphAction(NULL,NULL); }*/
+graph: START GRAPH_ID NAME pool END GRAPH_ID				{ $$ = CreateGraphActionPool($3,$4); }
+	| START GRAPH_ID NAME create END GRAPH_ID				{ $$ = CreateGraphAction($3,$4); } 
 	;
 
-pool: START POOL NAME lane createp END POOL					{ $$ = CreatePoolAction($3,$4, $5); } /*{ $$ = CreatePoolAction(NULL,NULL,NULL); }*/
-	| START POOL NAME lane createp END POOL pool			{ $$ = CreatePoolAction($3,$4, $5); } /*{ $$ = CreatePoolAction(NULL,NULL,NULL); }*/
+pool: START POOL NAME lane createp END POOL					{ $$ = CreatePoolAction($3,$4, $5); }
+	| START POOL NAME lane createp END POOL pool			{ $$ = CreateAppendPoolAction($3,$4, $5, $8); } 
 	;
 
-lane: START LANE NAME create END LANE lane				{ $$ = CreateLaneAction($3,$4); } /* { $$ = CreateLaneAction(NULL,NULL); }*/
-	| START LANE create END LANE lane					{ $$ = CreateLaneAction("",$3); } /*{ $$ = CreateLaneAction(NULL,NULL); }*/
-	| /*lambda*/  										{ $$ = 0 }
+lane: START LANE NAME create END LANE lane				{ $$ = CreateLaneAction($3,$4,$7); } 
+	| START LANE create END LANE lane					{ $$ = CreateLaneAction("",$3,$6); } 
+	| /*lambda*/  										{ $$ = NULL; }
 	;
 
-create: expression  											{ $$ = 0 }
-		| expression create 								{ $$ = 0 }            
+create: expression  										{ $$ = NULL; }
+		| expression create 								{ $$ = NULL; }            
 
-createp: create 	  										{ $$ = 0 }
-		| /*lambda*/  										{ $$ = 0 }
+createp: create 	  										{ $$ = NULL; }
+		| /*lambda*/  										{ $$ = NULL; }
 		;
-expression:  CREATE EVENT EVENT_TYPE NAME AS VAR 		{ $$ = CreateEventAction($3, $4, $6); } /*{ $$ = CreateEventAction(NULL,NULL,NULL); }*/
-		| CREATE ACTIVITY NAME AS VAR 					{ $$ = CreateActivityAction($3, $5); } /*{ $$ = CreateActivityAction(NULL,NULL); }*/
-		| CREATE ARTIFACT ARTIFACT_TYPE NAME AS VAR  	{ $$ = CreateArtifactAction($3, $4, $6); } /*{ $$ = CreateArtifactAction(NULL,NULL,NULL); }*/
-		| gateway										{ $$ = 0; }
-		| connect										{ $$ = 0; }
+expression:  CREATE EVENT EVENT_TYPE NAME AS VAR 		{ $$ = CreateEventAction($3, $4, $6); }
+		| CREATE ACTIVITY NAME AS VAR 					{ $$ = CreateActivityAction($3, $5); } 
+		| CREATE ARTIFACT ARTIFACT_TYPE NAME AS VAR  	{ $$ = CreateArtifactAction($3, $4, $6); } 
+		| gateway										{ $$ = NULL; }
+		| connect										{ $$ = NULL; }
 		;
 
 
 gateway: CREATE GATEWAY NAME CURLY_BRACES_OPEN
-			set	
-		 CURLY_BRACES_CLOSE AS VAR 						{ $$ = CreateGatewayAction($3, $5, $8); } /* { $$ = CreateGatewayAction(NULL, NULL, NULL); } */
+			set
+		 CURLY_BRACES_CLOSE AS VAR 						{ $$ = CreateGatewayAction($3, $5, $8); } 
 	;
 
-set: SET NAME CONNECT TO VAR  						{ $$ = CreateSetGetwayAction($2, $5); } /* { $$ = CreateSetGetwayAction(NULL, NULL); }*/
-	|SET NAME CONNECT TO VAR set					{ $$ = CreateSetGetwayAction($2, $5); } /* { $$ = CreateSetGetwayAction(NULL,NULL); }*/
+set: SET NAME CONNECT TO VAR  						{ $$ = CreateSetGetwayAction($2, $5); } 
+	|SET NAME CONNECT TO VAR set					{ $$ = CreateAppendSetGetwayAction($2, $5, $6); } 
 	;
 
 
-connect: CONNECT VAR TO VAR 						{$$ = CreateConnectionAction($2, $4); } /* {$$ = CreateConnectionAction(NULL, NULL); }*/
+connect: CONNECT VAR TO VAR 						{$$ = CreateConnectionAction($2, $4); }
 	;
 
 %%

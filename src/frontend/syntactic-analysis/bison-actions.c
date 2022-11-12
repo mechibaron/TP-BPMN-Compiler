@@ -3,6 +3,8 @@
 #include "bison-actions.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
 
 /**
  * Implementación de "bison-grammar.h".
@@ -36,91 +38,198 @@ Program ProgramGrammarAction( Graph * value){
 
 	state.succeed = true;
 
-	// Program program;
-	// program = (Program){.graph=value};
-	// return &program;
+	Program program;
+	program = (Program){.graph=value};
+	return program;
 	// state.result = value;
-	return NULL;
 }
 
-Graph CreateGraphActionPool( char* title,  Pool * pool){
+Graph * CreateGraphActionPool( char* title,  Pool * pool){
 	LogDebug("\tCreateGraphAction");
-	// Graph graph;
-	// graph = (Graph){.name = title, .pool = &pool, .expression = NULL};	
-	// return &graph;
-	return NULL;
+	Graph * graph = malloc(sizeof(Graph));
+	graph->name =  malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(graph->name, title);
+	graph->pool = pool;
+	graph->expression = NULL;
+	return graph;
 }
 
-Graph CreateGraphAction( char* title,  Create * expression){
+Graph * CreateGraphAction( char* title,  Create * create_exp){
 	LogDebug("\tCreateGraphAction");
-
-	// Graph graph;
-	// graph = (Graph){.name = title, .pool = NULL, .expression = &(*expression).expression};	
-	// return &graph;
-	return NULL;
+	Graph * graph = malloc(sizeof(Graph));
+	if(graph == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	graph->name = malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(graph->name, title);
+	graph->pool = NULL;
+	graph->expression = &((*create_exp).expression);
+	return graph;
 }
 
-Expression CreateEventAction(char* type, char* title, char* var){
+Expression * CreateEventAction(char* event_type, char* title, char* var){
 	LogDebug("\tCreateEventAction");
-	
-	// Expression exp;
-	// exp = (Expression){.type = type, .title = title, .varName = var};	
-	// return &exp;
-	return NULL;
+	Expression * exp = malloc(sizeof(Expression));
+	if(exp == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	exp -> exp = EVENT_EXP;
+	exp -> exp_type = malloc(sizeof(char) * (strlen(event_type) + 1));
+	strcpy(exp -> exp_type, event_type);
+	exp->title = malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(exp->title, title);	
+	exp->varName = malloc(sizeof(char) * (strlen(var) + 1));
+	strcpy(exp->varName, var);
+	return exp;
 }
 
-Expression CreateActivityAction(char* title, char* var){
+Expression * CreateActivityAction(char* title, char* var){
 	LogDebug("\tCreateActivityAction");
-	// Expression exp;
-	// exp = (Expression){.type = "", .title = title, .varName = var};	
-	// return &exp;
-	return NULL;
+	Expression * exp = malloc(sizeof(Expression));
+	if(exp == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	exp -> exp = ACTIVITY_EXP;
+	exp -> exp_type = NULL;
+	exp->title = malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(exp->title, title);	
+	exp->varName = malloc(sizeof(char) * (strlen(var) + 1));
+	strcpy(exp->varName, var);
+	return exp;
 }
 
-Expression CreateArtifactAction(char* type, char* title, char* var){
-	// Expression exp;
-	// exp = (Expression){.type = type, .title = title, .varName = var};	
-	// return &exp;
-	return NULL;
+Expression * CreateArtifactAction(char* artifact_type, char* title, char* var){
+	Expression * exp = malloc(sizeof(Expression));
+	if(exp == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	exp -> exp = ARTIFACT_EXP;
+	exp -> exp_type = malloc(sizeof(char) * (strlen(artifact_type) + 1));
+	strcpy(exp -> exp_type, artifact_type);
+	exp->title = malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(exp->title, title);	
+	exp->varName = malloc(sizeof(char) * (strlen(var) + 1));
+	strcpy(exp->varName, var);
+	return exp;
 }
 
-Gateway CreateGatewayAction(char * title,  Set * set,  char* var ){
+Gateway * CreateGatewayAction(char * title,  Set * set,  char* var ){
 	LogDebug("\tCreateGatewayAction");
-	// Gateway gateway;
-	// gateway = (Gateway){.title = title, .sets = &set, .varName = var};	
-	return NULL;
+	Gateway * gateway = malloc(sizeof(Gateway));
+	if(gateway == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	gateway->title =  malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(gateway->title, title);
+	gateway->set = set;
+	gateway->varName =  malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(gateway->varName, var);
+	return gateway;
 }
 
-Pool CreatePoolAction( char* poolName,  Lane * lane,  CreateP * create){
+Pool * CreatePoolAction( char* poolName,  Lane * lane,  CreateP * createp){
 	LogDebug("\tCreatePoolAction");
-	// Pool pool;
-	// pool = (Pool){.title = poolName, .lane = &lane, .expression = &(*create).create.expression};		
-	// return &pool;
-	return NULL;
+	Pool * pool = malloc(sizeof(Pool));
+	if(pool == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	pool -> title = malloc(sizeof(char) * (strlen(poolName) + 1));
+	strcpy(pool -> title, poolName);
+	pool->lane = lane;
+	pool -> expression =  &((*createp).create.expression);
+	pool->next = NULL;
+	return pool;
 }
 
-Lane CreateLaneAction( char* title,  Create * expression){
+Pool * CreateAppendPoolAction( char* poolName,  Lane *lane,  CreateP * createp, Pool * poolAppend){
+	LogDebug("\tCreatePoolAction");
+	Pool * pool = malloc(sizeof(Pool));
+	if(pool == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	pool -> title = malloc(sizeof(char) * (strlen(poolName) + 1));
+	strcpy(pool -> title, poolName);
+	pool->lane = lane;
+	pool -> expression =  &((*createp).create.expression);
+	pool->next = poolAppend;
+	return pool;
+}
+
+Lane * CreateLaneAction( char* title,  Create *create_exp, Lane * laneAppend){
 	LogDebug("\tCreateLaneAction");
-	// Lane lane;
-	// lane = (Lane){.title = title, .expression = &(*expression).expression};	
-	// return &lane;
-	return NULL;
+	Lane * lane = malloc(sizeof(Lane));
+	if(lane == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	lane -> title = malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(lane -> title, title);
+	lane -> expression =  &((*create_exp).expression);
+	lane->next = laneAppend;	
+	return lane;
 }
 
-Connect CreateConnectionAction( char* leftVar,  char* rightVar){
+Connect * CreateConnectionAction( char* leftVar,  char* rightVar){
 	LogDebug("\tCreateConnectionAction");
-	// Connect connect;
-	// connect = (Connect){.from = leftVar, .to = rightVar};	
-	// return &connect;
-	return NULL;
+	Connect * connect = malloc(sizeof(Connect));
+	if(connect == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	connect->from =  malloc(sizeof(char) * (strlen(leftVar) + 1));
+	strcpy(connect->from, leftVar);
+	connect->to =  malloc(sizeof(char) * (strlen(rightVar) + 1));
+	strcpy(connect->to, rightVar);	
+	connect->title= NULL; //chequear esto
+	return connect;
 }
 
-
-Set CreateSetGetwayAction(char* title, char* var){
+Set * CreateSetGetwayAction(char* title, char* var){
 	LogDebug("\tCreateSetGatewayAction");
-	// Set set;
-	// Connect connect;
-	// connect = (Connect){.from = NULL, .to = var, .title= title};	
-	// set = (Set){.connect1 = &connect };
-	return NULL;
+	Set * set = malloc(sizeof(Set));
+	if(set == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	Connect * connect = malloc(sizeof(Connect));
+	if(connect == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	connect->from = NULL;
+	connect->to = var;
+	connect -> title = malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(connect -> title, title);
+	set -> connect1 =  connect;
+	set->next = NULL;	
+	return set;
+}
+
+Set * CreateAppendSetGetwayAction(char* title, char* var, Set * setAppend){
+	LogDebug("\tCreateSetGatewayAction");
+
+	Set * set = malloc(sizeof(Set));
+	if(set == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	Connect * connect = malloc(sizeof(Connect));
+	if(connect == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	connect->from = NULL;
+	connect->to = var;
+	connect -> title = malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(connect -> title, title);
+	set -> connect1 =  connect;
+	set->next = setAppend;	
+	return set;
 }
