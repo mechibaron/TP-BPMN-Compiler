@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include "../symbol-table/symbol-table.h"
 #include "../semantic-analysis/abstract-syntax-tree.h"
 
 // Descriptor del archivo de entrada que utiliza Bison.
@@ -32,7 +33,6 @@ extern int yyparse(void);
 
 // Emular tipo "boolean".
 typedef enum {
-
 	false = 0,
 	true = 1
 } boolean;
@@ -48,8 +48,9 @@ typedef struct {
 	int result;
 	// El nodo raíz del AST (se usará cuando se implemente el backend).
 	Program * program;
+	//Tabla
+	struct SymbolTable * table;
 } CompilerState;
-
 
 
 // El estado se define e inicializa en el archivo "main.c".

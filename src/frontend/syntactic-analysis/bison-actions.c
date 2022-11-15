@@ -1,5 +1,6 @@
 #include "../../backend/domain-specific/calculator.h"
 #include "../../backend/support/logger.h"
+#include "../../backend/symbol-table/symbol-table.h"
 #include "bison-actions.h"
 #include <stdio.h>
 #include <string.h>
@@ -31,10 +32,9 @@ void yyerror(const char * string) {
 * gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
 */
 
-Program ProgramGrammarAction( Graph * value){
+Program ProgramGrammarAction(Graph * value){
 
 	LogDebug("\tProgramGrammarAction");
-
 
 	state.succeed = true;
 
@@ -69,20 +69,25 @@ Graph * CreateGraphAction( char* title,  Create * create_exp){
 }
 
 Expression * CreateEventAction(char* event_type, char* title, char* var){
-	LogDebug("\tCreateEventAction");
-	Expression * exp = malloc(sizeof(Expression));
-	if(exp == NULL){
-		LogDebug("Error from malloc\n");
+	if(addSymbolToTable(state.table, newSymbol(var)) == true){
+		LogDebug("\tCreateEventAction");
+		Expression * exp = malloc(sizeof(Expression));
+		if(exp == NULL){
+			LogDebug("Error from malloc\n");
+			return NULL;
+		}
+		exp -> exp = EVENT_EXP;
+		exp -> exp_type = malloc(sizeof(char) * (strlen(event_type) + 1));
+		strcpy(exp -> exp_type, event_type);
+		exp->title = malloc(sizeof(char) * (strlen(title) + 1));
+		strcpy(exp->title, title);	
+		exp->varName = malloc(sizeof(char) * (strlen(var) + 1));
+		strcpy(exp->varName, var);
+		return exp;
+	} else {
+		state.succeed = false;
 		return NULL;
-	}
-	exp -> exp = EVENT_EXP;
-	exp -> exp_type = malloc(sizeof(char) * (strlen(event_type) + 1));
-	strcpy(exp -> exp_type, event_type);
-	exp->title = malloc(sizeof(char) * (strlen(title) + 1));
-	strcpy(exp->title, title);	
-	exp->varName = malloc(sizeof(char) * (strlen(var) + 1));
-	strcpy(exp->varName, var);
-	return exp;
+	}	
 }
 
 Expression * CreateActivityAction(char* title, char* var){
@@ -177,18 +182,23 @@ Lane * CreateLaneAction( char* title,  Create *create_exp, Lane * laneAppend){
 }
 
 Connect * CreateConnectionAction( char* leftVar,  char* rightVar){
-	LogDebug("\tCreateConnectionAction");
-	Connect * connect = malloc(sizeof(Connect));
-	if(connect == NULL){
-		LogDebug("Error from malloc\n");
+	if(existInTable(state.table, leftVar) == true && existInTable(state.table, rightVar) == true){
+		LogDebug("\tCreateConnectionAction");
+		Connect * connect = malloc(sizeof(Connect));
+		if(connect == NULL){
+			LogDebug("Error from malloc\n");
+			return NULL;
+		}
+		connect->from =  malloc(sizeof(char) * (strlen(leftVar) + 1));
+		strcpy(connect->from, leftVar);
+		connect->to =  malloc(sizeof(char) * (strlen(rightVar) + 1));
+		strcpy(connect->to, rightVar);	
+		connect->title= NULL; //chequear esto
+		return connect;
+	}else{
+		state.succeed = false;
 		return NULL;
 	}
-	connect->from =  malloc(sizeof(char) * (strlen(leftVar) + 1));
-	strcpy(connect->from, leftVar);
-	connect->to =  malloc(sizeof(char) * (strlen(rightVar) + 1));
-	strcpy(connect->to, rightVar);	
-	connect->title= NULL; //chequear esto
-	return connect;
 }
 
 Set * CreateSetGetwayAction(char* title, char* var){

@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "shared.h": "c"
+        "shared.h": "c",
+        "logger.h": "c",
+        "symbol-table.h": "c",
+        "bison-actions.h": "c"
     }
 }

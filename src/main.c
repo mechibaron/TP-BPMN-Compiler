@@ -1,9 +1,11 @@
 #include "backend/code-generation/generator.h"
 #include "backend/support/logger.h"
 #include "backend/support/shared.h"
+#include "backend/symbol-table/symbol-table.h"
 #include "frontend/syntactic-analysis/bison-parser.h"
 #include <stdio.h>
 #include <string.h>
+
 
 // Estado de la aplicación.
 CompilerState state;
@@ -14,6 +16,7 @@ const int main(const int argumentCount, const char ** arguments) {
 	state.program = NULL;
 	state.result = 0;
 	state.succeed = false;
+	state.table = newEmptySymbolTable();
 
 	// Mostrar parámetros recibidos por consola.
 	for (int i = 0; i < argumentCount; ++i) {
@@ -46,5 +49,8 @@ const int main(const int argumentCount, const char ** arguments) {
 			LogError("Error desconocido mientras se ejecutaba el analizador Bison (codigo %d).", result);
 	}
 	LogInfo("Fin.");
+
+//CHEQUEO NUESTRO DE SYMBOL TABLE
+	printSymbolTable(state.table);
 	return result;
 }
