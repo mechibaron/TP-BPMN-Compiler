@@ -1,23 +1,25 @@
 #include "symbol-table.h"
 
 // Pure, simple, symbol manipulation
-SymbolEntry* newSymbol(char* name) {
+SymbolEntry * newSymbol(char * name, ExpressionType expression){
     SymbolEntry* entry = malloc(sizeof(SymbolEntry));
-    
+    char * name_copy = calloc(strlen(name) + 1, sizeof(char));
+    strcpy(name_copy, name);
     if(entry == NULL){
         //outOfMemory(state.errorManager);
         return NULL;
     }
-    printf("%s\n", name);
-    //entry->key = malloc( sizeof(char) *  (strlen(name) + 1));
-    entry->key = (char *) calloc(strlen(name) + 1, sizeof(char));
-    //printf("name: %s\n",name);
+    //printf("%s\n", name);
+    entry->key = (char *)calloc( strlen(name_copy) + 1, sizeof(char));
+    //entry->key = (char *) calloc(10, sizeof(char));
+    printf("name copy: %s\n",name_copy);
     if(entry->key == NULL){
         free(entry);
         //outOfMemory(state.errorManager);
         return NULL;
     }
-    strncpy(entry->key, name, strlen(name));
+    strcpy(entry->key, name);
+    entry->expression = expression;
     //printf("%s",entry->key);
     return entry;
 }

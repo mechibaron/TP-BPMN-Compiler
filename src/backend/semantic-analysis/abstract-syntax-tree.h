@@ -6,7 +6,9 @@
 typedef enum ExpressionType{
     EVENT_EXP,
     ACTIVITY_EXP,
-    ARTIFACT_EXP
+    ARTIFACT_EXP,
+    //CONNECT_EXP,
+    //GATEWAY_EXP
 } ExpressionType;
 
 typedef struct Expression
@@ -15,6 +17,8 @@ typedef struct Expression
     char* exp_type;  //event can be: initial - intermidiate - final,  output-
     char * title;
     char * varName;
+    //Connect * connect;
+    //Gateway * gateway;
 } Expression;
 
 typedef struct Create {

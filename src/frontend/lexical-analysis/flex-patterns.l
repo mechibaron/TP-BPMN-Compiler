@@ -15,13 +15,13 @@
 
 /* Contextos de Flex. */
 %x COMMENT
+%x NAME_PATTERN
 
 /* Patrones reutilizables. */
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
 event_type      (initial|intermediate|final)
 artifact_type   (input|output|collection|storage)
-name            \".*\"
 var             $[a-zA-Z0-9]+
 
 %%
@@ -30,6 +30,10 @@ var             $[a-zA-Z0-9]+
 <COMMENT>.									{ ; }
 <COMMENT>{endline}							{ ; }
 <COMMENT>"*/"								{ EndCommentPatternAction(); BEGIN(INITIAL); }
+
+"\""										{ BEGIN(NAME_PATTERN); BeginNamePatternAction(); }								
+<NAME_PATTERN>[^\"]+					    { return NamePatternAction(yytext, yyleng); }
+<NAME_PATTERN>"\""								        { EndNamePatternAction(); BEGIN(INITIAL); }
 
 
 
@@ -62,7 +66,6 @@ var             $[a-zA-Z0-9]+
 
 {artifact_type}                             { return ArtifactTypePatternAction(yytext, yyleng); }
 
-{name}                                      { return NamePatternAction(yytext, yyleng); }
 
 {var}                                       { return VarPatternAction(yytext, yyleng); }
 

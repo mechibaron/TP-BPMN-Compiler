@@ -26,6 +26,14 @@ void EndCommentPatternAction() {
 	LogDebug("EndCommentPatternAction.");
 }
 
+void BeginNamePatternAction() {
+	LogDebug("BeginNamePatterAction.");
+}
+
+void EndNamePatternAction() {
+	LogDebug("EndNamePatterAction.");
+}
+
 token StartPatternAction(const char * lexeme) {
 	LogDebug("StartPatternAction: '%s'.", lexeme);
 	yylval.token = START;
@@ -136,7 +144,7 @@ token NamePatternAction(const char * lexeme, const int length) {
 	}
 	strncpy(aux, lexeme, length);
 	yylval.string = aux;
-	free(aux);
+	// free(aux);
 	return NAME;
 }
 
@@ -149,7 +157,7 @@ token EventTypePatternAction(const char * lexeme, const int length) {
 	}
 	strncpy(aux, lexeme, length);
 	yylval.string = aux;
-	free(aux);
+	// free(aux);
 	return EVENT_TYPE;
 }
 
@@ -162,7 +170,7 @@ token ArtifactTypePatternAction(const char * lexeme, const int length) {
 	}
 	strncpy(aux, lexeme, length);
 	yylval.string = aux;
-	free(aux);
+	// free(aux);
 	return ARTIFACT_TYPE;
 }
 
@@ -176,7 +184,7 @@ token VarPatternAction(const char * lexeme, const int length) {
 	}
 	strncpy(aux, lexeme, length);
 	yylval.string = aux;
-	free(aux);
+	// free(aux);
 	return VAR;
 }
 

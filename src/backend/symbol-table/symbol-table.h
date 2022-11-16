@@ -4,9 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../support/shared.h"
+#include "../semantic-analysis/abstract-syntax-tree.h"
 
 typedef struct SymbolEntry {
     char * key; //variable name
+    ExpressionType expression;
     struct SymbolEntry * next; 
 } SymbolEntry; 
 
@@ -15,7 +17,7 @@ typedef struct SymbolTable {
 } SymbolTable; 
 
 // Symbol creation. A symbol cannot be deleted individually, it is destroyed in scope deletion. 
-SymbolEntry * newSymbol(char * name); 
+SymbolEntry * newSymbol(char * name, ExpressionType expression); 
 SymbolEntry * getSymbolWithKey(SymbolEntry * entry, char * key); 
 
 // Scope creation and deletion 

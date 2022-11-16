@@ -69,7 +69,7 @@ Graph * CreateGraphAction( char* title,  Create * create_exp){
 }
 
 Expression * CreateEventAction(char* event_type, char* title, char* var){
-	if(addSymbolToTable(state.table, newSymbol(var)) == true){
+	if(addSymbolToTable(state.table, newSymbol(var, EVENT_EXP)) == true){
 		LogDebug("\tCreateEventAction");
 		Expression * exp = malloc(sizeof(Expression));
 		if(exp == NULL){

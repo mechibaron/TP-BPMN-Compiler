@@ -9,6 +9,7 @@ start graph "activityGraph"
         set "no" connect to $last
     } as $gate
     connect $first to $clock
+    connect $clock to $activity1
     connect $activity1 to $gate 
     connect $activity2 to $clock 
 end graph

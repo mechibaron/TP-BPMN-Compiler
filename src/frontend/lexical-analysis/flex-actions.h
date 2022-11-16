@@ -45,7 +45,8 @@ token NamePatternAction(const char * lexeme, const int length);
 token EventTypePatternAction(const char * lexeme, const int length);
 token ArtifactTypePatternAction(const char * lexeme, const int length);
 token VarPatternAction(const char * lexeme, const int length);
-
+void BeginNamePatternAction();
+void EndNamePatternAction();
 
 // Patrón desconocido, permite abortar debido a un error de sintaxis.
 token UnknownPatternAction(const char * lexeme, const int length);
