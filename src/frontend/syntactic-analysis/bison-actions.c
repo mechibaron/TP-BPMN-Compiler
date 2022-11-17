@@ -94,35 +94,48 @@ Expression * CreateEventAction(char* event_type, char* title, char* var){
 }
 
 Expression * CreateActivityAction(char* title, char* var){
-	LogDebug("\tCreateActivityAction");
-	Expression * exp = malloc(sizeof(Expression));
-	if(exp == NULL){
-		LogDebug("Error from malloc\n");
+	if(addSymbolToTable(state.table, newSymbol(var, ACTIVITY_EXP)) == true){
+		LogDebug("\tCreateActivityAction");
+		Expression * exp = malloc(sizeof(Expression));
+		if(exp == NULL){
+			LogDebug("Error from malloc\n");
+			return NULL;
+		}
+		exp -> exp = ACTIVITY_EXP;
+		exp -> exp_type = NULL;
+		exp->title = malloc(sizeof(char) * (strlen(title) + 1));
+		strcpy(exp->title, title);	
+		exp->varName = malloc(sizeof(char) * (strlen(var) + 1));
+		strcpy(exp->varName, var);
+		return exp;
+	}else {
+		state.succeed = false;
 		return NULL;
-	}
-	exp -> exp = ACTIVITY_EXP;
-	exp -> exp_type = NULL;
-	exp->title = malloc(sizeof(char) * (strlen(title) + 1));
-	strcpy(exp->title, title);	
-	exp->varName = malloc(sizeof(char) * (strlen(var) + 1));
-	strcpy(exp->varName, var);
-	return exp;
+	}	
+
 }
 
 Expression * CreateArtifactAction(char* artifact_type, char* title, char* var){
-	Expression * exp = malloc(sizeof(Expression));
-	if(exp == NULL){
-		LogDebug("Error from malloc\n");
+	if(addSymbolToTable(state.table, newSymbol(var, ARTIFACT_EXP)) == true){
+		LogDebug("\tCreateArtifactAction");
+		Expression * exp = malloc(sizeof(Expression));
+		if(exp == NULL){
+			LogDebug("Error from malloc\n");
+			return NULL;
+		}
+		exp -> exp = ARTIFACT_EXP;
+		exp -> exp_type = malloc(sizeof(char) * (strlen(artifact_type) + 1));
+		strcpy(exp -> exp_type, artifact_type);
+		exp->title = malloc(sizeof(char) * (strlen(title) + 1));
+		strcpy(exp->title, title);	
+		exp->varName = malloc(sizeof(char) * (strlen(var) + 1));
+		strcpy(exp->varName, var);
+		return exp;
+	}else {
+		state.succeed = false;
 		return NULL;
-	}
-	exp -> exp = ARTIFACT_EXP;
-	exp -> exp_type = malloc(sizeof(char) * (strlen(artifact_type) + 1));
-	strcpy(exp -> exp_type, artifact_type);
-	exp->title = malloc(sizeof(char) * (strlen(title) + 1));
-	strcpy(exp->title, title);	
-	exp->varName = malloc(sizeof(char) * (strlen(var) + 1));
-	strcpy(exp->varName, var);
-	return exp;
+	}	
+
 }
 
 Gateway * CreateGatewayAction(char * title,  Set * set,  char* var ){
