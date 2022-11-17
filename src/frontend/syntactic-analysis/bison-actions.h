@@ -11,11 +11,6 @@
  * abstracta (i.e., el AST).
  */
 
-/** Aclaración: se decidió comentar las siguientes lineas 
- * ya que no era necesario para la entrega 2 (Frontend), pero 
- * será utilizado en la próxima entrega (Backend)
- */
-
 // Programa.
 Program ProgramGrammarAction( Graph * value);
 
@@ -38,16 +33,5 @@ Expression * CreateConnectIntoExpressionAction(Connect * connect);
 Create * CreateExpressionIntoCreate(Expression * exp);
 Create * CreateAppendExpresionIntoCreate(Expression * exp, Create * createAppend);
 CreateP * CreateIntoCreatep(Create * create);
-
-// int CreateGraphActionPool(char* title,  Pool * pool);
-// int CreateGraphAction( char* title,  Create * value);
-// int CreatePoolAction( char* poolName,  Lane * lane,  CreateP * create);
-// int CreateLaneAction( char* title,  Create * expression);
-// int CreateEventAction(char* type, char* title, char* var);
-// int CreateActivityAction(char* title, char* var);
-// int CreateArtifactAction(char* type, char* title, char* var);
-// int CreateGatewayAction(char* title,  Set * set,  char* var );
-// int CreateSetGetwayAction(char* title, char* var);
-// int CreateConnectionAction( char* leftVar, char* rightVar);
 
 #endif
