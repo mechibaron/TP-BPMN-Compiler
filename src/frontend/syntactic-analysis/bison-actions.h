@@ -31,7 +31,7 @@ Connect * CreateConnectionAction( char* leftVar, char* rightVar);
 Expression * CreateGatewayIntoExpressionAction(Gateway * gateway);
 Expression * CreateConnectIntoExpressionAction(Connect * connect);
 Create * CreateExpressionIntoCreate(Expression * exp);
-Create * CreateAppendExpresionIntoCreate(Expression * exp, Create * createAppend);
+Create * CreateAppendExpresionIntoCreate(Expression * exp, CreateP * createAppend);
 CreateP * CreateIntoCreatep(Create * create);
 
 #endif

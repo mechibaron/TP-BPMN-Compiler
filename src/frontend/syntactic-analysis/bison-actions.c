@@ -310,7 +310,7 @@ CreateP * CreateIntoCreatep(Create * create){
 	return createp;
 }
 
-Create * CreateAppendExpresionIntoCreate(Expression * exp, Create * createAppend){
+Create * CreateAppendExpresionIntoCreate(Expression * exp, CreateP * createAppend){
 	LogDebug("\tCreateAppendExpresionIntoCreate");
 
 	Create * create = malloc(sizeof(Create));
@@ -319,6 +319,6 @@ Create * CreateAppendExpresionIntoCreate(Expression * exp, Create * createAppend
 		return NULL;
 	}
 	create -> expression = exp;
-	create -> next = createAppend;
+	create -> next = createAppend->create;
 	return create;
 }

@@ -85,8 +85,7 @@ lane: START LANE NAME create END LANE lane				{ $$ = CreateLaneAction($3,$4,$7);
 	;
 
 create: expression  										{ $$ = CreateExpressionIntoCreate($1); }
-		| expression create 								{ $$ = CreateAppendExpresionIntoCreate($1,$2); }            
-// 		| expression create => Esta bien esto? Porque no iba createp?
+		| expression createp 								{ $$ = CreateAppendExpresionIntoCreate($1,$2); }            
 
 createp: create 	  										{ $$ = CreateIntoCreatep($1); }
 		| /*lambda*/  										{ $$ = NULL; }
