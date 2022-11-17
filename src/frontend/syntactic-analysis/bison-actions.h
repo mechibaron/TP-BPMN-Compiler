@@ -20,18 +20,24 @@
 Program ProgramGrammarAction( Graph * value);
 
 // Expresión.
-Graph * CreateGraphActionPool(char* title,  Pool *pool);
-Graph * CreateGraphAction( char* title,  Create* value);
-Pool * CreatePoolAction( char* poolName,  Lane *lane,  CreateP *createp);
-Pool * CreateAppendPoolAction( char* poolName,  Lane * lane,  CreateP *createp, Pool *poolAppend);
-Lane * CreateLaneAction( char* title,  Create *create_exp, Lane *laneAppend);
+Graph * CreateGraphActionPool(char* title,  Pool * pool);
+Graph * CreateGraphAction( char* title,  Create * value);
+Pool * CreatePoolAction( char* poolName,  Lane * lane,  CreateP * createp);
+Pool * CreateAppendPoolAction( char* poolName,  Lane * lane,  CreateP * createp, Pool * poolAppend);
+Lane * CreateLaneAction( char* title,  Create * create_exp, Lane * laneAppend);
 Expression * CreateEventAction(char* event_type,char* title, char* var);
 Expression * CreateActivityAction(char* title, char* var);
 Expression * CreateArtifactAction(char* artifact_type,char* title, char* var);
 Gateway * CreateGatewayAction(char* title,  Set * set,  char* var );
 Set * CreateSetGetwayAction(char* title, char* var);
-Set * CreateAppendSetGetwayAction(char* title, char* var, Set *setAppend);
+Set * CreateAppendSetGetwayAction(char* title, char* var, Set * setAppend);
 Connect * CreateConnectionAction( char* leftVar, char* rightVar);
+
+Expression * CreateGatewayIntoExpressionAction(Gateway * gateway);
+Expression * CreateConnectIntoExpressionAction(Connect * connect);
+Create * CreateExpressionIntoCreate(Expression * exp);
+Create * CreateAppendExpresionIntoCreate(Expression * exp, Create * createAppend);
+CreateP * CreateIntoCreatep(Create * create);
 
 // int CreateGraphActionPool(char* title,  Pool * pool);
 // int CreateGraphAction( char* title,  Create * value);

@@ -51,6 +51,7 @@ Graph * CreateGraphActionPool( char* title,  Pool * pool){
 	strcpy(graph->name, title);
 	graph->pool = pool;
 	graph->expression = NULL;
+	graph->type = WITH_POOL;
 	return graph;
 }
 
@@ -64,7 +65,9 @@ Graph * CreateGraphAction( char* title,  Create * create_exp){
 	graph->name = malloc(sizeof(char) * (strlen(title) + 1));
 	strcpy(graph->name, title);
 	graph->pool = NULL;
-	graph->expression = &((*create_exp).expression);
+	// graph->expression = ((*create_exp).expression);
+	graph->expression = create_exp->expression;
+	graph->type = WITHOUT_POOL;
 	return graph;
 }
 
@@ -147,7 +150,8 @@ Pool * CreatePoolAction( char* poolName,  Lane * lane,  CreateP * createp){
 	pool -> title = malloc(sizeof(char) * (strlen(poolName) + 1));
 	strcpy(pool -> title, poolName);
 	pool->lane = lane;
-	pool -> expression =  &((*createp).create.expression);
+	// pool -> expression =  &((*createp).create.expression);
+	pool -> expression =  createp->create->expression;
 	pool->next = NULL;
 	return pool;
 }
@@ -162,7 +166,8 @@ Pool * CreateAppendPoolAction( char* poolName,  Lane *lane,  CreateP * createp, 
 	pool -> title = malloc(sizeof(char) * (strlen(poolName) + 1));
 	strcpy(pool -> title, poolName);
 	pool->lane = lane;
-	pool -> expression =  &((*createp).create.expression);
+	// pool -> expression =  &((*createp).create.expression);
+	pool -> expression = createp->create->expression;
 	pool->next = poolAppend;
 	return pool;
 }
@@ -176,7 +181,8 @@ Lane * CreateLaneAction( char* title,  Create *create_exp, Lane * laneAppend){
 	}
 	lane -> title = malloc(sizeof(char) * (strlen(title) + 1));
 	strcpy(lane -> title, title);
-	lane -> expression =  &((*create_exp).expression);
+	// lane -> expression =  &((*create_exp).expression);
+	lane -> expression =  create_exp->expression;
 	lane->next = laneAppend;	
 	return lane;
 }
@@ -242,4 +248,77 @@ Set * CreateAppendSetGetwayAction(char* title, char* var, Set * setAppend){
 	set -> connect1 =  connect;
 	set->next = setAppend;	
 	return set;
+}
+
+Expression * CreateGatewayIntoExpressionAction(Gateway * gateway){
+	LogDebug("\tCreateGatewayIntoExpressionAction");
+
+	Expression * exp = malloc(sizeof(Expression));
+	if(exp == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	exp -> exp = GATEWAY_EXP;
+	exp -> exp_type = NULL;
+	exp -> connect = NULL;
+	exp -> title = malloc(sizeof(char) * (strlen(gateway->title) + 1));
+	strcpy(exp->title, gateway->title);	
+	exp -> varName = malloc(sizeof(char) * (strlen(gateway->varName) + 1));
+	strcpy(exp->varName, gateway->varName);
+	exp -> gateway = gateway;
+	return exp;
+}
+
+Expression * CreateConnectIntoExpressionAction(Connect * connect){
+	LogDebug("\tCreateConnectIntoExpressionAction");
+
+	Expression * exp = malloc(sizeof(Expression));
+	if(exp == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	exp -> exp = CONNECT_EXP;
+	exp -> exp_type = NULL;
+	exp -> gateway = NULL;
+	exp -> varName = NULL;
+	exp -> connect = connect;
+	return exp;
+}
+
+Create * CreateExpressionIntoCreate(Expression * exp){
+	LogDebug("\tCreateExpressionIntoCreate");
+
+	Create * create = malloc(sizeof(Create));
+	if(create == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	create -> expression = exp;
+	create -> next = NULL;
+	return create;
+}
+
+CreateP * CreateIntoCreatep(Create * create){
+	LogDebug("\tCreateIntoCreatep");
+
+	CreateP * createp = malloc(sizeof(CreateP));
+	if(createp == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	createp -> create = create;
+	return createp;
+}
+
+Create * CreateAppendExpresionIntoCreate(Expression * exp, Create * createAppend){
+	LogDebug("\tCreateAppendExpresionIntoCreate");
+
+	Create * create = malloc(sizeof(Create));
+	if(create == NULL){
+		LogDebug("Error from malloc\n");
+		return NULL;
+	}
+	create -> expression = exp;
+	create -> next = createAppend;
+	return create;
 }

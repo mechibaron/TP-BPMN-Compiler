@@ -84,17 +84,18 @@ lane: START LANE NAME create END LANE lane				{ $$ = CreateLaneAction($3,$4,$7);
 	| /*lambda*/  										{ $$ = NULL; }
 	;
 
-create: expression  										{ $$ = NULL; }
-		| expression create 								{ $$ = NULL; }            
+create: expression  										{ $$ = CreateExpressionIntoCreate($1); }
+		| expression create 								{ $$ = CreateAppendExpresionIntoCreate($1,$2); }            
+// 		| expression create => Esta bien esto? Porque no iba createp?
 
-createp: create 	  										{ $$ = NULL; }
+createp: create 	  										{ $$ = CreateIntoCreatep($1); }
 		| /*lambda*/  										{ $$ = NULL; }
 		;
 expression:  CREATE EVENT EVENT_TYPE NAME AS VAR 		{ $$ = CreateEventAction($3, $4, $6); }
 		| CREATE ACTIVITY NAME AS VAR 					{ $$ = CreateActivityAction($3, $5); } 
 		| CREATE ARTIFACT ARTIFACT_TYPE NAME AS VAR  	{ $$ = CreateArtifactAction($3, $4, $6); } 
-		| gateway										{ $$ = NULL; }
-		| connect										{ $$ = NULL; }
+		| gateway										{ $$ = CreateGatewayIntoExpressionAction($1); }
+		| connect										{ $$ = CreateConnectIntoExpressionAction($1); }
 		;
 
 
