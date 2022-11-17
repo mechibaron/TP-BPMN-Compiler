@@ -1,10 +1,17 @@
 #include "../support/logger.h"
 #include "generator.h"
+#include "../symbol-table/symbol-table.h"
+#include "../semantic-analysis/abstract-syntax-tree.h"
 
 /**
  * Implementación de "generator.h".
  */
 
-void Generator() {
-	LogInfo("Feliciationes, haz realizado un BPMN");
+void Generator(Program * program) {
+	if(program == NULL){
+		LogInfo("Program es null");
+	} else {
+		// LogDebug(program->graph->name); // Me tira seg fault lpm
+		LogInfo("Feliciationes, haz realizado un BPMN");
+	}
 }

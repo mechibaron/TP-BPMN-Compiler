@@ -12,7 +12,7 @@
 // Tipos de dato utilizados en las variables semánticas ($$, $1, $2, etc.).
 %union{
 	
-	Program  program;
+	Program * program;
 	Expression * expression;
 	Create * create;
 	CreateP * createp;

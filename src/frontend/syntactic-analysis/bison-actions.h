@@ -12,7 +12,7 @@
  */
 
 // Programa.
-Program ProgramGrammarAction( Graph * value);
+Program * ProgramGrammarAction(Graph * value);
 
 // Expresión.
 Graph * CreateGraphActionPool(char* title,  Pool * pool);

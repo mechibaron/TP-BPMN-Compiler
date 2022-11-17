@@ -32,14 +32,16 @@ void yyerror(const char * string) {
 * gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
 */
 
-Program ProgramGrammarAction(Graph * value){
+Program * ProgramGrammarAction(Graph * value){
 
 	LogDebug("\tProgramGrammarAction");
 
 	state.succeed = true;
 
-	Program program;
-	program = (Program){.graph=value};
+	Program * program;
+	program = &(Program){.graph=value};
+	state.program = program;
+	LogDebug(program->graph->name);
 	return program;
 	// state.result = value;
 }
@@ -215,52 +217,59 @@ Connect * CreateConnectionAction( char* leftVar,  char* rightVar){
 		connect->title= NULL; //chequear esto
 		return connect;
 	}else{
-		state.succeed = false;
 		return NULL;
 	}
 }
 
 Set * CreateSetGetwayAction(char* title, char* var){
-	LogDebug("\tCreateSetGatewayAction");
-	Set * set = malloc(sizeof(Set));
-	if(set == NULL){
-		LogDebug("Error from malloc\n");
+	if(existInTable(state.table, var) == true){
+		LogDebug("\tCreateSetGatewayAction");
+		Set * set = malloc(sizeof(Set));
+		if(set == NULL){
+			LogDebug("Error from malloc\n");
+			return NULL;
+		}
+		Connect * connect = malloc(sizeof(Connect));
+		if(connect == NULL){
+			LogDebug("Error from malloc\n");
+			return NULL;
+		}
+		connect->from = NULL;
+		connect->to = var;
+		connect -> title = malloc(sizeof(char) * (strlen(title) + 1));
+		strcpy(connect -> title, title);
+		set -> connect1 =  connect;
+		set->next = NULL;	
+		return set;
+	}else{
 		return NULL;
 	}
-	Connect * connect = malloc(sizeof(Connect));
-	if(connect == NULL){
-		LogDebug("Error from malloc\n");
-		return NULL;
-	}
-	connect->from = NULL;
-	connect->to = var;
-	connect -> title = malloc(sizeof(char) * (strlen(title) + 1));
-	strcpy(connect -> title, title);
-	set -> connect1 =  connect;
-	set->next = NULL;	
-	return set;
 }
 
 Set * CreateAppendSetGetwayAction(char* title, char* var, Set * setAppend){
-	LogDebug("\tCreateSetGatewayAction");
+	if(existInTable(state.table, var) == true){
+		LogDebug("\tCreateSetGatewayAction");
 
-	Set * set = malloc(sizeof(Set));
-	if(set == NULL){
-		LogDebug("Error from malloc\n");
+		Set * set = malloc(sizeof(Set));
+		if(set == NULL){
+			LogDebug("Error from malloc\n");
+			return NULL;
+		}
+		Connect * connect = malloc(sizeof(Connect));
+		if(connect == NULL){
+			LogDebug("Error from malloc\n");
+			return NULL;
+		}
+		connect->from = NULL;
+		connect->to = var;
+		connect -> title = malloc(sizeof(char) * (strlen(title) + 1));
+		strcpy(connect -> title, title);
+		set -> connect1 =  connect;
+		set->next = setAppend;	
+		return set;
+	}else{
 		return NULL;
 	}
-	Connect * connect = malloc(sizeof(Connect));
-	if(connect == NULL){
-		LogDebug("Error from malloc\n");
-		return NULL;
-	}
-	connect->from = NULL;
-	connect->to = var;
-	connect -> title = malloc(sizeof(char) * (strlen(title) + 1));
-	strcpy(connect -> title, title);
-	set -> connect1 =  connect;
-	set->next = setAppend;	
-	return set;
 }
 
 Expression * CreateGatewayIntoExpressionAction(Gateway * gateway){
