@@ -38,10 +38,10 @@ Program * ProgramGrammarAction(Graph * value){
 
 	state.succeed = true;
 
-	Program * program;
-	program = &(Program){.graph=value};
+	Program * program = malloc(sizeof(Program));
+	program->graph = value;
 	state.program = program;
-	LogDebug(program->graph->name);
+	//LogDebug(program->graph->name);
 	return program;
 	// state.result = value;
 }

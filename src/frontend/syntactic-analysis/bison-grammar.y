@@ -64,6 +64,7 @@
 %type <lane> lane
 %type <connect> connect
  
+// El símbolo inicial de la gramatica.
 %start program
 
 %%
