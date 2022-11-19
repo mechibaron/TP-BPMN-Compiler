@@ -41,7 +41,7 @@ Luego se deberá abrir la solución generada `bin\Compiler.sln` con el IDE _Micr
 
 ## Ejecución
 
-Luego, ejecute el ompilador desde el directorio raíz del proyecto, o desde cualquier otro lugar indicando el path hacia el script `start.sh` y pasando por parámetro el path hacia el programa a compilar:
+Luego, ejecute el compilador desde el directorio raíz del proyecto, o desde cualquier otro lugar indicando el path hacia el script `start.sh` y pasando por parámetro el path hacia el programa a compilar:
 Dentro de la carpata test figuran dos carpetas con los casos de uso que acepta y rechaza el lenguje. 
 
 ```bash
@@ -54,6 +54,17 @@ En Windows:
 user@machine:path/ $ script\start.bat program
 ```
 Donde `program` es el nombre del archivo de alguno de los casos de uso.
+
+Esto generará un archivo out.dot que deberá compilar con dot, para descargar dot visite https://graphviz.org/download/
+
+Luego, en la raiz del proyecto ejecute lo siguiente: 
+
+```bash
+user@machine:path/ $ dot -Tsvg out.dot  -o out.svg
+
+```
+
+Finalmente podrá visualizar el BPMN generado en out.svg
 
 ## Testing
 
@@ -68,4 +79,3 @@ En Windows:
 ```bash
 user@machine:path/ $ script\test.bat
 ```
-
