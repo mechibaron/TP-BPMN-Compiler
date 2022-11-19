@@ -1,0 +1,21 @@
+start graph "TheOffRequest" 
+    start pool "Employee"
+        create event initial "start" as $first
+        create activity "Fill out request form" as $fillRequest
+        create event final "Denied" as $denied
+        connect $first to $fillRequest
+    end pool
+    start pool "Manager" 
+        create activity "Manager Approve Request" as $ManagerApprove
+        create gateway "Is Approved" {
+                set "yes" connect to $processRequest 
+                set "no" connect to $denied
+            } as $gate
+        connect $ManagerApprove to $gate
+    end pool
+    start pool "HR" 
+        create activity "Process Request" as $processRequest
+        create event final "Approved" as $approved
+        connect $processRequest to $approved
+    end pool
+end graph

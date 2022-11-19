@@ -10,7 +10,6 @@ void Generator(Program * program) {
 	if(program == NULL){
 		LogInfo("Program es null");
 	} else {
-		LogInfo("Genero el programa");
 		file = fopen("out.dot", "w+");
 		fprintf(file, "digraph {\n");
 		writeGraph(program->graph);
@@ -133,7 +132,7 @@ void writeActivity (char* title, char* var){
 }
 
 void writeGateway(Gateway * gateway){
-	fprintf(file, "\t %s [label=\"%s\" shape=diamond color=green]\n", (gateway->varName + 1), gateway->title);
+	fprintf(file, "\t %s [label=\"%s\" shape=diamond,  color=gray, style=filled]\n", (gateway->varName + 1), gateway->title);
 	if(gateway->set != NULL){
 		writeSet(gateway->varName, gateway->set);
 	}

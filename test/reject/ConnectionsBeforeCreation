@@ -1,5 +1,5 @@
-start graph "connections with wrong variables name" 
+start graph "Connections before creation" 
+    connect $varA to $varB
     create event initial "a" as $varA
     create event final "b" as $varB
-    connect $varA to $varC
 end graph
