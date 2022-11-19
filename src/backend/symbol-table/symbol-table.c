@@ -9,10 +9,7 @@ SymbolEntry * newSymbol(char * name, ExpressionType expression){
         //outOfMemory(state.errorManager);
         return NULL;
     }
-    //printf("%s\n", name);
     entry->key = (char *)calloc( strlen(name_copy) + 1, sizeof(char));
-    //entry->key = (char *) calloc(10, sizeof(char));
-    printf("name copy: %s\n",name_copy);
     if(entry->key == NULL){
         free(entry);
         //outOfMemory(state.errorManager);
@@ -20,7 +17,6 @@ SymbolEntry * newSymbol(char * name, ExpressionType expression){
     }
     strcpy(entry->key, name);
     entry->expression = expression;
-    //printf("%s",entry->key);
     return entry;
 }
 
@@ -129,4 +125,13 @@ void printSymbolTable(SymbolTable* table) {
     printSymbolEntryList(table->top);
     printf("----EOT----\n");
 
+}
+
+
+int isArtifact(SymbolTable* table, char* key ){
+    SymbolEntry* entry = getEntryFromTable(table, key);
+    if(entry -> expression == ARTIFACT_EXP){
+        return true;
+    }
+    return false;
 }

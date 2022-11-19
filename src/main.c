@@ -16,6 +16,7 @@ const int main(const int argumentCount, const char ** arguments) {
 	state.program = NULL;
 	state.result = 0;
 	state.succeed = false;
+	state.errors = 0;
 	state.table = newEmptySymbolTable();
 
 	// Mostrar parámetros recibidos por consola.
@@ -30,12 +31,12 @@ const int main(const int argumentCount, const char ** arguments) {
 		case 0:
 			// La variable "succeed" es la que setea Bison al identificar el símbolo
 			// inicial de la gramática satisfactoriamente.
-			if (state.succeed) {
+			if (state.succeed && state.errors == 0) {
 				LogInfo("La compilacion fue exitosa.");
 				Generator(state.program);
 			}
 			else {
-				LogError("Se produjo un error en la aplicacion.");
+				LogError("Se produjeron %d errores en la aplicacion.", state.errors);
 				return -1;
 			}
 			break;
@@ -50,7 +51,5 @@ const int main(const int argumentCount, const char ** arguments) {
 	}
 	LogInfo("Fin.");
 
-//CHEQUEO NUESTRO DE SYMBOL TABLE
-	printSymbolTable(state.table);
 	return result;
 }

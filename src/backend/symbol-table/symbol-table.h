@@ -29,6 +29,7 @@ int addSymbolToTable(SymbolTable * table, SymbolEntry * entry);
 SymbolEntry * getEntryFromTable(SymbolTable * table, char * key); 
 
 int existInTable(SymbolTable* table,char * name);
+int isArtifact(SymbolTable * table, char * key);
 
 // Debugging
 //void printSymbolEntry(SymbolEntry * entry); 

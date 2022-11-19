@@ -86,7 +86,7 @@ lane: START LANE NAME create END LANE lane				{ $$ = CreateLaneAction($3,$4,$7);
 	;
 
 create: expression  										{ $$ = CreateExpressionIntoCreate($1); }
-		| expression createp 								{ $$ = CreateAppendExpresionIntoCreate($1,$2); }            
+		| expression create 								{ $$ = CreateAppendExpresionIntoCreate($1,$2); }            
 
 createp: create 	  										{ $$ = CreateIntoCreatep($1); }
 		| /*lambda*/  										{ $$ = NULL; }
@@ -104,8 +104,8 @@ gateway: CREATE GATEWAY NAME CURLY_BRACES_OPEN
 		 CURLY_BRACES_CLOSE AS VAR 						{ $$ = CreateGatewayAction($3, $5, $8); } 
 	;
 
-set: SET NAME CONNECT TO VAR  						{ $$ = CreateSetGetwayAction($2, $5); } 
-	|SET NAME CONNECT TO VAR set					{ $$ = CreateAppendSetGetwayAction($2, $5, $6); } 
+set: SET NAME CONNECT TO VAR  						{ $$ = CreateSetGatewayAction($2, $5); } 
+	|SET NAME CONNECT TO VAR set					{ $$ = CreateAppendSetGatewayAction($2, $5, $6); } 
 	;
 
 

@@ -50,6 +50,8 @@ typedef struct {
 	Program * program;
 	//Tabla
 	struct SymbolTable * table;
+	
+	int errors;
 } CompilerState;
 
 

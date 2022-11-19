@@ -8,6 +8,7 @@ start graph "gatewayOneConnect"
             create gateway "gatewayInfo" {
                 set "si" connect to $last
             } as $gate
+            connect $first to $gate
         end lane
     end pool
 end graph
