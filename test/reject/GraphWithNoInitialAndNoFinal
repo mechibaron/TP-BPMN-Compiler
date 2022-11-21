@@ -1,0 +1,3 @@
+start graph "noInitialAndNoFinal"
+    create event intermediate "intermediate" as $intermediate
+end graph

@@ -29,11 +29,9 @@ typedef enum GraphType {
     WITHOUT_POOL
 } GraphType;
 
-// Este de LaneType me parece que no hace falta porque usamos una misma funcion y le pasamos "".
-// De ultima podemos crear una nueva que no reciba "" y que te lo ponga. O que te llame a la que tiene title con "".
 typedef enum LaneType {
-    HAS_NAME,
-    HAS_NO_NAME
+    WITH_LANE,
+    WITHOUT_LANE
 } LaneType;
 
 typedef struct Connect {
@@ -69,6 +67,8 @@ typedef struct CreateP {
 
 typedef struct Lane {
     char * title;
+    LaneType type;
+    struct Lane * insideLane;
     struct Create *  create; 
     struct Lane * next;
 } Lane;

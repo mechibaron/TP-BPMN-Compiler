@@ -9,6 +9,7 @@ FILE * file;
 int clusterCount = 0;
 
 void Generator(Program * program) {
+	LogDebug("Entro en generator");
 	if(program == NULL){
 		LogInfo("Program es null");
 	} else {
@@ -61,8 +62,14 @@ void writeLane(Lane * lane){
 	fprintf(file, "subgraph cluster_%d { \n", clusterCount++ );
 	fprintf(file, "label=\"%s\"\n", strlen(lane->title) != 0 ? lane->title : "" );
 
-	if(lane->create != NULL){
-		writeCreate(lane->create);
+	if(lane->type == WITH_LANE){
+		if(lane->insideLane != NULL){
+			writeLane(lane->insideLane);
+		}
+	}else{
+		if(lane->create != NULL){
+			writeCreate(lane->create);
+		}
 	}
 	fprintf(file, "} \n");
 

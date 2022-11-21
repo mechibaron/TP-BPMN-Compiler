@@ -6,7 +6,7 @@ start graph "multiplePools"
     end pool
     start pool "pool2" 
         create event initial "startEvent" as $first2
-        create event intermediate "middle" as $middle2
+        create event final "middle" as $middle2
         connect $first2 to $middle2
     end pool
 end graph

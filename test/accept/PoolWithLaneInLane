@@ -1,0 +1,15 @@
+start graph "poolWithLane" 
+    start pool "pool1"
+        start lane "lane1"
+            start lane "lane2"
+                create event initial "startEvent" as $first
+                create event intermediate "middle" as $middle
+                connect $first to $middle
+            end lane
+            start lane "lane3"
+                create event final "finalEvent" as $final
+                connect $middle to $final
+            end lane
+        end lane
+    end pool
+end graph

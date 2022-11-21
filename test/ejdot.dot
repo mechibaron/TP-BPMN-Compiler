@@ -1,7 +1,0 @@
-digraph { 
-    label="Activity graph"
-    labelloc="t"
-    first [ylabel="Grupo de trabajo activo",  label="", shape=circle, color=green]
-    end [ylabel="Grupo de trabajo inactivo", label="",color=red, shape=circle]
-    first -> end 
-    }

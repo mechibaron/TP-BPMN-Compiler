@@ -36,11 +36,12 @@ const int main(const int argumentCount, const char ** arguments) {
 				if(validateProgram(state.program) == true){
 					Generator(state.program);
 				} else {
+					LogError("Se produjo %d error en la aplicacion.", state.errors+1);
 					return -1;
 				}
 			}
 			else {
-				LogError("Se produjeron %d errores en la aplicacion.", state.errors);
+				LogError("Se produj%s %d error%s en la aplicacion.",(state.errors>1) ? "eron" : "o", state.errors,(state.errors > 1)? "es": "");
 				return -1;
 			}
 			break;
