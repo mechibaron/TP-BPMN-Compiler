@@ -60,10 +60,16 @@ void writePool(Pool * pool){
 void writeLane(Lane * lane){	
 	fprintf(file, "subgraph cluster_%d { \n", clusterCount++ );
 	fprintf(file, "label=\"%s\"\n", strlen(lane->title) != 0 ? lane->title : "" );
-
-	if(lane->create != NULL){
-		writeCreate(lane->create);
+	if(lane->type == WITH_LANE){
+		if(lane->lane != NULL){
+			writeLane(lane->lane);
+		}
+	}else{
+		if(lane->create != NULL){
+			writeCreate(lane->create);
+		}
 	}
+
 	fprintf(file, "} \n");
 
 	if(lane->next != NULL){

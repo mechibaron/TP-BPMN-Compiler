@@ -82,6 +82,7 @@ pool: START POOL NAME lane createp END POOL					{ $$ = CreatePoolAction($3,$4, $
 
 lane: START LANE NAME create END LANE lane				{ $$ = CreateLaneAction($3,$4,$7); } 
 	| START LANE create END LANE lane					{ $$ = CreateLaneAction("",$3,$6); } 
+	| START LANE lane END LANE lane						{ $$ = CreateLaneWithLaneAction("",$3,$6); } 
 	| /*lambda*/  										{ $$ = NULL; }
 	;
 

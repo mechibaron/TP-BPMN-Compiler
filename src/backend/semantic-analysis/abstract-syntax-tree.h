@@ -36,6 +36,11 @@ typedef enum LaneType {
     HAS_NO_NAME
 } LaneType;
 
+typedef enum LaneInsideType {
+    WITH_LANE,
+    WITHOUT_LANE
+} LaneInsideType;
+
 typedef struct Connect {
     char * title; //si tiene mensaje -> sino vacio
     char * from;
@@ -68,8 +73,10 @@ typedef struct CreateP {
 }CreateP;
 
 typedef struct Lane {
+    LaneInsideType type;
     char * title;
     struct Create *  create; 
+    struct Lane * lane;
     struct Lane * next;
 } Lane;
 

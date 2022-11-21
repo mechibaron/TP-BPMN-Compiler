@@ -216,8 +216,26 @@ Lane * CreateLaneAction( char* title,  Create *create_exp, Lane * laneAppend){
 	}
 	lane -> title = malloc(sizeof(char) * (strlen(title) + 1));
 	strcpy(lane -> title, title);
+	lane->type = WITHOUT_LANE;
 	lane->create = malloc(sizeof(Create));
 	lane->create = create_exp;
+	lane->next = laneAppend;	
+	return lane;
+}
+
+Lane * CreateLaneWithLaneAction( char* title,  Lane * lane, Lane * laneAppend){
+	LogDebug("\tCreateLaneWithLaneAction");
+	Lane * lane = malloc(sizeof(Lane));
+	if(lane == NULL){
+		state.errors++;
+		LogError("Error from malloc\n");
+		return NULL;
+	}
+	lane -> title = malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(lane -> title, title);
+	lane->type = WITH_LANE;
+	lane->lane = malloc(sizeof(Lane));
+	lane->lane = lane;
 	lane->next = laneAppend;	
 	return lane;
 }

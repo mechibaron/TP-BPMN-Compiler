@@ -20,6 +20,7 @@ Graph * CreateGraphAction( char* title,  Create * value);
 Pool * CreatePoolAction( char* poolName,  Lane * lane,  CreateP * createp);
 Pool * CreateAppendPoolAction( char* poolName,  Lane * lane,  CreateP * createp, Pool * poolAppend);
 Lane * CreateLaneAction( char* title,  Create * create_exp, Lane * laneAppend);
+Lane * CreateLaneWithLaneAction( char* title,  Lane * lane, Lane * laneAppend);
 Expression * CreateEventAction(char* event_type,char* title, char* var);
 Expression * CreateActivityAction(char* title, char* var);
 Expression * CreateArtifactAction(char* artifact_type,char* title, char* var);
