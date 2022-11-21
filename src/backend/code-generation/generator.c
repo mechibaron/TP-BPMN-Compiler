@@ -17,6 +17,7 @@ void Generator(Program * program) {
 		fclose(file);
 		LogInfo("Feliciationes, haz realizado un BPMN");
 	}
+	free(program);
 }
 
 void writeGraph(Graph * graph){		
@@ -26,19 +27,19 @@ void writeGraph(Graph * graph){
 	
 	if(graph->type == WITH_POOL){
 		writePool(graph->pool);
-
 	}
 	if(graph->create != NULL){
 		writeCreate(graph->create);
 	}
 	fprintf(file, "} \n");
-
+	free(graph);
 }
 
-void writePool(Pool * pool){	
+void writePool(Pool * pool){
+		
 	fprintf(file, "subgraph cluster_%s { \n", pool->title );
 	fprintf(file, "label=\"%s\"\n", strlen(pool->title) != 0 ? pool->title : "" );
-
+	
 	if(pool->createP != NULL){
 		writeCreateP(pool->createP);
 	}
@@ -51,14 +52,13 @@ void writePool(Pool * pool){
 	if(pool->next != NULL){
 		writePool(pool->next);
 	}
-
-
+	free(pool);
 }	
 
 void writeLane(Lane * lane){	
 	fprintf(file, "subgraph cluster_%s { \n", lane->title );
 	fprintf(file, "label=\"%s\"\n", strlen(lane->title) != 0 ? lane->title : "" );
-	
+
 	if(lane->create != NULL){
 		writeCreate(lane->create);
 	}
@@ -67,7 +67,7 @@ void writeLane(Lane * lane){
 	if(lane->next != NULL){
 		writeLane(lane->next);
 	}
-
+	free(lane);
 }	
 
 void writeCreate(Create * create){
@@ -77,12 +77,14 @@ void writeCreate(Create * create){
 	if(create->next != NULL){
 		writeCreate(create->next);
 	}
+	free(create);
 }
 
 void writeCreateP(CreateP * createP){
 	if(createP->create != NULL){
-		writeCreate(createP->create);
+		writeCreateP(createP->create);
 	}
+	free(createP);
 }
 
 void writeExpression(Expression * expression){	
@@ -97,7 +99,7 @@ void writeExpression(Expression * expression){
 	}else{
 		writeGateway(expression->gateway);
 	}
-
+	free(expression);
 }	
 
 void writeConnection(Connect * connect){
@@ -106,6 +108,7 @@ void writeConnection(Connect * connect){
 	}else{
 		fprintf(file, "\t %s->%s\n", (connect->from + 1), (connect->to + 1) );
 	}
+	free(connect);
 }
  
 void writeEvent(EventType eventType, char* title, char* var){
@@ -114,7 +117,6 @@ void writeEvent(EventType eventType, char* title, char* var){
 	}else if (eventType == EVENT_INTERMEDIATE){
 		fprintf(file, "\t %s [label=\"%s\" , shape=doublecircle, color=orange]\n",(var + 1), title);
 	}else{
-		// final
 		fprintf(file, "\t %s [label=\"%s\" , shape=circle, color=red]\n",(var + 1), title);
 	}
 }
@@ -136,6 +138,7 @@ void writeGateway(Gateway * gateway){
 	if(gateway->set != NULL){
 		writeSet(gateway->varName, gateway->set);
 	}
+	free(gateway);
 }
 
 void writeSet(char * varName, Set * set){
@@ -145,9 +148,11 @@ void writeSet(char * varName, Set * set){
 	if(set->next != NULL){
 		writeSet(varName, set->next);
 	}
+	free(set);
 }
 
 
 void writeConnectionGateway(Connect * connect, char * from){
 	fprintf(file, "%s->%s [label=\"%s\"]\n", (from + 1), (connect->to + 1), connect->title);
+	free(connect);
 }

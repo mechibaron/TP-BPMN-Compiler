@@ -20,4 +20,5 @@ void writeCreateP(CreateP * createP);
 void writeSet(char * varName, Set * set);
 void writeConnectionGateway(Connect * connect, char * from);
 
+
 #endif

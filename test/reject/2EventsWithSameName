@@ -1,0 +1,5 @@
+start graph "Connections before creation" 
+    create event initial "a" as $varA
+    create event final "b" as $varA
+    connect $varA to $varA
+end graph

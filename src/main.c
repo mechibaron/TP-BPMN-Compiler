@@ -5,7 +5,7 @@
 #include "frontend/syntactic-analysis/bison-parser.h"
 #include <stdio.h>
 #include <string.h>
-
+#include "backend/domain-specific/validateProgram.h"
 
 // Estado de la aplicación.
 CompilerState state;
@@ -33,7 +33,9 @@ const int main(const int argumentCount, const char ** arguments) {
 			// inicial de la gramática satisfactoriamente.
 			if (state.succeed && state.errors == 0) {
 				LogInfo("La compilacion fue exitosa.");
-				Generator(state.program);
+				//if(validateProgram(state.program) == true){
+					Generator(state.program);
+				//}
 			}
 			else {
 				LogError("Se produjeron %d errores en la aplicacion.", state.errors);

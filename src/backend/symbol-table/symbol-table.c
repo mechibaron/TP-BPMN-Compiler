@@ -32,19 +32,6 @@ SymbolEntry* getSymbolWithKey(SymbolEntry* entry, char* key) {
     return getSymbolWithKey(entry->next, key);
 }
 
-// Delete symbol list
-
-void deleteSymbolEntryList(SymbolEntry* entry) {
-    if (entry == NULL)
-        return;
-
-    if (entry->key != NULL)
-        free(entry->key);
-
-    deleteSymbolEntryList(entry->next);
-    free(entry);
-}
-
 // Table creation
 SymbolTable* newEmptySymbolTable() {
     SymbolTable* table = malloc(sizeof(SymbolTable));
@@ -53,17 +40,8 @@ SymbolTable* newEmptySymbolTable() {
         return NULL;
     }
     table->top = NULL;
+    table->size = 0;
     return table;
-}
-
-// Table erasure
-void* deleteScope(SymbolTable* table) {
-    if (table == NULL)
-        return NULL;
-
-    deleteSymbolEntryList(table->top);
-    free(table);
-    return NULL;
 }
 
 
@@ -72,6 +50,7 @@ int addSymbolToTable(SymbolTable* table, SymbolEntry* entry) {
     if(existInTable(table, entry->key) == false){
         entry->next = table->top;
         table->top = entry;
+        table->size++;
         return true;
     }
     return false;
@@ -127,11 +106,14 @@ void printSymbolTable(SymbolTable* table) {
 
 }
 
-
 int isArtifact(SymbolTable* table, char* key ){
     SymbolEntry* entry = getEntryFromTable(table, key);
     if(entry -> expression == ARTIFACT_EXP){
         return true;
     }
     return false;
+}
+
+int tableSize(SymbolTable * table){
+    return table->size;
 }
