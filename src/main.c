@@ -33,9 +33,11 @@ const int main(const int argumentCount, const char ** arguments) {
 			// inicial de la gramática satisfactoriamente.
 			if (state.succeed && state.errors == 0) {
 				LogInfo("La compilacion fue exitosa.");
-				//if(validateProgram(state.program) == true){
+				if(validateProgram(state.program) == true){
 					Generator(state.program);
-				//}
+				} else {
+					return -1;
+				}
 			}
 			else {
 				LogError("Se produjeron %d errores en la aplicacion.", state.errors);

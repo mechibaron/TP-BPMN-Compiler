@@ -1,3 +1,0 @@
-start graph "graph"
-    create event initial "init" as $start
-end graph

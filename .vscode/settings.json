@@ -3,6 +3,8 @@
         "shared.h": "c",
         "logger.h": "c",
         "symbol-table.h": "c",
-        "bison-actions.h": "c"
+        "bison-actions.h": "c",
+        "abstract-syntax-tree.h": "c",
+        "validateprogram.h": "c"
     }
 }

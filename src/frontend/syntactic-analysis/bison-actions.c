@@ -223,109 +223,83 @@ Lane * CreateLaneAction( char* title,  Create *create_exp, Lane * laneAppend){
 }
 
 Connect * CreateConnectionAction( char* leftVar,  char* rightVar){
-	if(existInTable(state.table, leftVar) == true){
-		if(existInTable(state.table, rightVar) == true){
-			LogDebug("\tCreateConnectionAction");
-			Connect * connect = malloc(sizeof(Connect));
-			if(connect == NULL){
-				LogError("Error from malloc\n");
-				return NULL;
-			}
-			connect->from =  malloc(sizeof(char) * (strlen(leftVar) + 1));
-			strcpy(connect->from, leftVar);
-			connect->to =  malloc(sizeof(char) * (strlen(rightVar) + 1));
-			strcpy(connect->to, rightVar);	
-			connect->title= NULL; 
-			return connect;
-		}else{
-			state.errors++;
-			LogError("Variable %s no reconocida", rightVar);
-			return NULL;
-		}
-	}else{
-		state.errors++;
-		LogError("Variable %s no reconocida", leftVar);
+	LogDebug("\tCreateConnectionAction");
+	Connect * connect = malloc(sizeof(Connect));
+	if(connect == NULL){
+		LogError("Error from malloc\n");
 		return NULL;
 	}
-
+	connect->from =  malloc(sizeof(char) * (strlen(leftVar) + 1));
+	strcpy(connect->from, leftVar);
+	connect->to =  malloc(sizeof(char) * (strlen(rightVar) + 1));
+	strcpy(connect->to, rightVar);	
+	connect->title= NULL; 
+	return connect;
 }
 
 Set * CreateSetGatewayAction(char* title, char* var){
-	if(existInTable(state.table, var) == true){
-		LogDebug("\tCreateSetGatewayAction");
-		Set * set = malloc(sizeof(Set));
-		if(set == NULL){
-			state.errors++;
-			LogError("Error from malloc\n");
-			return NULL;
-		}
-		Connect * connect = malloc(sizeof(Connect));
-		if(connect == NULL){
-			state.errors++;
-			LogError("Error from malloc\n");
-			return NULL;
-		}
-		connect->from = NULL;
-		connect->to = var;
-		connect -> title = malloc(sizeof(char) * (strlen(title) + 1));
-		strcpy(connect -> title, title);
-		set -> connect =  connect;
-		set->next = NULL;	
-		return set;
-	}else{
+	LogDebug("\tCreateSetGatewayAction");
+	Set * set = malloc(sizeof(Set));
+	if(set == NULL){
 		state.errors++;
-		LogError("Variable no reconocida");
+		LogError("Error from malloc\n");
 		return NULL;
 	}
+	Connect * connect = malloc(sizeof(Connect));
+	if(connect == NULL){
+		state.errors++;
+		LogError("Error from malloc\n");
+		return NULL;
+	}
+	connect->from = NULL;
+	connect->to = var;
+	connect -> title = malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(connect -> title, title);
+	set -> connect =  connect;
+	set->next = NULL;	
+	return set;
 }
 
 Set * CreateAppendSetGatewayAction(char* title, char* var, Set * setAppend){
-	if(existInTable(state.table, var) == true){
-		LogDebug("\tCreateSetGatewayAction");
+	LogDebug("\tCreateSetGatewayAction");
 
-		Set * set = malloc(sizeof(Set));
-		if(set == NULL){
-			state.errors++;
-			LogError("Error from malloc\n");
-			return NULL;
-		}
-		Connect * connect = malloc(sizeof(Connect));
-		if(connect == NULL){
-			state.errors++;
-			LogError("Error from malloc\n");
-			return NULL;
-		}
-		connect->from = NULL;
-		connect->to = var;
-		connect -> title = malloc(sizeof(char) * (strlen(title) + 1));
-		strcpy(connect -> title, title);
-		set -> connect =  connect;
-		set->next = setAppend;	
-		return set;
-	}else{
+	Set * set = malloc(sizeof(Set));
+	if(set == NULL){
 		state.errors++;
-		LogError("Variable no reconocida");
+		LogError("Error from malloc\n");
 		return NULL;
 	}
+	Connect * connect = malloc(sizeof(Connect));
+	if(connect == NULL){
+		state.errors++;
+		LogError("Error from malloc\n");
+		return NULL;
+	}
+	connect->from = NULL;
+	connect->to = var;
+	connect -> title = malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(connect -> title, title);
+	set -> connect =  connect;
+	set->next = setAppend;	
+	return set;
 }
 
 Expression * CreateGatewayIntoExpressionAction(Gateway * gateway){
-		LogDebug("\tCreateGatewayIntoExpressionAction");
-		Expression * exp = malloc(sizeof(Expression));
-		if(exp == NULL){
-			state.errors++;
-			LogError("Error from malloc\n");
-			return NULL;
-		}
-		exp -> exp = GATEWAY_EXP;
-		exp -> connect = NULL;
-		exp -> title = malloc(sizeof(char) * (strlen(gateway->title) + 1));
-		strcpy(exp->title, gateway->title);	
-		exp -> varName = malloc(sizeof(char) * (strlen(gateway->varName) + 1));
-		strcpy(exp->varName, gateway->varName);
-		exp -> gateway = gateway;
-		return exp;
-	
+	LogDebug("\tCreateGatewayIntoExpressionAction");
+	Expression * exp = malloc(sizeof(Expression));
+	if(exp == NULL){
+		state.errors++;
+		LogError("Error from malloc\n");
+		return NULL;
+	}
+	exp -> exp = GATEWAY_EXP;
+	exp -> connect = NULL;
+	exp -> title = malloc(sizeof(char) * (strlen(gateway->title) + 1));
+	strcpy(exp->title, gateway->title);	
+	exp -> varName = malloc(sizeof(char) * (strlen(gateway->varName) + 1));
+	strcpy(exp->varName, gateway->varName);
+	exp -> gateway = gateway;
+	return exp;
 }
 
 Expression * CreateConnectIntoExpressionAction(Connect * connect){

@@ -6,6 +6,8 @@
  */
 FILE * file;
 
+int clusterCount = 0;
+
 void Generator(Program * program) {
 	if(program == NULL){
 		LogInfo("Program es null");
@@ -21,7 +23,7 @@ void Generator(Program * program) {
 }
 
 void writeGraph(Graph * graph){		
-	fprintf(file, "subgraph cluster_%s { \n", graph->name);
+	fprintf(file, "subgraph cluster_%d { \n", clusterCount++);
 	fprintf(file, "label=\"%s\"\n", strlen(graph->name) != 0 ? graph->name : "" );
 	fprintf(file, "labelloc=\"t\" \n");
 	
@@ -37,7 +39,7 @@ void writeGraph(Graph * graph){
 
 void writePool(Pool * pool){
 		
-	fprintf(file, "subgraph cluster_%s { \n", pool->title );
+	fprintf(file, "subgraph cluster_%d { \n", clusterCount++);
 	fprintf(file, "label=\"%s\"\n", strlen(pool->title) != 0 ? pool->title : "" );
 	
 	if(pool->createP != NULL){
@@ -56,7 +58,7 @@ void writePool(Pool * pool){
 }	
 
 void writeLane(Lane * lane){	
-	fprintf(file, "subgraph cluster_%s { \n", lane->title );
+	fprintf(file, "subgraph cluster_%d { \n", clusterCount++ );
 	fprintf(file, "label=\"%s\"\n", strlen(lane->title) != 0 ? lane->title : "" );
 
 	if(lane->create != NULL){
@@ -82,7 +84,7 @@ void writeCreate(Create * create){
 
 void writeCreateP(CreateP * createP){
 	if(createP->create != NULL){
-		writeCreateP(createP->create);
+		writeCreate(createP->create);
 	}
 	free(createP);
 }
