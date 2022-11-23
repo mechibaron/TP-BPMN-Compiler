@@ -60,7 +60,7 @@ Esto generará un archivo out.dot que deberá compilar con dot, para descargar d
 Luego, en la raiz del proyecto ejecute lo siguiente: 
 
 ```bash
-user@machine:path/ $ dot -Tsvg out.dot  -o out.svg
+user@machine:path/ $ make dot
 
 ```
 

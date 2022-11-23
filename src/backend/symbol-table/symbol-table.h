@@ -15,18 +15,14 @@ typedef struct SymbolEntry {
 
 typedef struct SymbolTable {
     SymbolEntry * top; 
-    int size;
 } SymbolTable; 
 
-// Symbol creation. A symbol cannot be deleted individually, it is destroyed in scope deletion. 
 SymbolEntry * newSymbol(char * name, ExpressionType expression); 
 SymbolEntry * newEventSymbol(char * name, ExpressionType expression, EventType eventType);
 SymbolEntry * getSymbolWithKey(SymbolEntry * entry, char * key); 
 
-// Scope creation and deletion 
 SymbolTable * newEmptySymbolTable();
 
-// Symbol manipulation into tables
 int addSymbolToTable(SymbolTable * table, SymbolEntry * entry); 
 SymbolEntry * getEntryFromTable(SymbolTable * table, char * key); 
 
@@ -34,9 +30,8 @@ int existInTable(SymbolTable* table,char * name);
 int isArtifact(SymbolTable * table, char * key);
 int isFinal(SymbolTable * table, char * key);
 int hasEvent(SymbolTable * table, EventType eventType);
+
 // Debugging
 void printSymbolTable(SymbolTable * table);
-
-int tableSize(SymbolTable * table);
 
 #endif

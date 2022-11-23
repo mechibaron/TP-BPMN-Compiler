@@ -1,9 +1,6 @@
 #include "../support/logger.h"
 #include "generator.h"
 
-/**
- * Implementación de "generator.h".
- */
 FILE * file;
 
 int clusterCount = 0;
@@ -35,6 +32,7 @@ void writeGraph(Graph * graph){
 		writeCreate(graph->create);
 	}
 	fprintf(file, "} \n");
+	free(graph->name);
 	free(graph);
 }
 
@@ -55,6 +53,7 @@ void writePool(Pool * pool){
 	if(pool->next != NULL){
 		writePool(pool->next);
 	}
+	free(pool->title);
 	free(pool);
 }	
 
@@ -76,6 +75,7 @@ void writeLane(Lane * lane){
 	if(lane->next != NULL){
 		writeLane(lane->next);
 	}
+	free(lane->title);
 	free(lane);
 }	
 
@@ -108,6 +108,7 @@ void writeExpression(Expression * expression){
 	}else{
 		writeGateway(expression->gateway);
 	}
+	free(expression->title);
 	free(expression);
 }	
 
@@ -117,6 +118,7 @@ void writeConnection(Connect * connect){
 	}else{
 		fprintf(file, "\t %s->%s\n", (connect->from + 1), (connect->to + 1) );
 	}
+	free(connect->title);
 	free(connect);
 }
  
@@ -147,6 +149,7 @@ void writeGateway(Gateway * gateway){
 	if(gateway->set != NULL){
 		writeSet(gateway->varName, gateway->set);
 	}
+	free(gateway->title);
 	free(gateway);
 }
 
@@ -163,5 +166,7 @@ void writeSet(char * varName, Set * set){
 
 void writeConnectionGateway(Connect * connect, char * from){
 	fprintf(file, "%s->%s [label=\"%s\"]\n", (from + 1), (connect->to + 1), connect->title);
+	free(connect->title);
+	free(connect->to);
 	free(connect);
 }

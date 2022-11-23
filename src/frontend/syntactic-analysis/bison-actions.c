@@ -7,10 +7,6 @@
 
 
 /**
- * Implementación de "bison-grammar.h".
- */
-
-/**
 * Esta función se ejecuta cada vez que se emite un error de sintaxis.
 */
 void yyerror(const char * string) {
@@ -24,12 +20,6 @@ void yyerror(const char * string) {
 	LogErrorRaw("\n\n");
 }
 
-/**
-* Esta acción se corresponde con el no-terminal que representa el símbolo
-* inicial de la gramática, y por ende, es el último en ser ejecutado, lo que
-* indica que efectivamente el programa de entrada se pudo generar con esta
-* gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
-*/
 
 Program * ProgramGrammarAction(Graph * value){
 

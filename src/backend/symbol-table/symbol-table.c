@@ -1,18 +1,15 @@
 #include "symbol-table.h"
 
-// Pure, simple, symbol manipulation
 SymbolEntry * newSymbol(char * name, ExpressionType expression){
     SymbolEntry* entry = malloc(sizeof(SymbolEntry));
     char * name_copy = calloc(strlen(name) + 1, sizeof(char));
     strcpy(name_copy, name);
     if(entry == NULL){
-        //outOfMemory(state.errorManager);
         return NULL;
     }
     entry->key = (char *)calloc( strlen(name_copy) + 1, sizeof(char));
     if(entry->key == NULL){
         free(entry);
-        //outOfMemory(state.errorManager);
         return NULL;
     }
     strcpy(entry->key, name);
@@ -25,13 +22,11 @@ SymbolEntry * newEventSymbol(char * name, ExpressionType expression, EventType e
     char * name_copy = calloc(strlen(name) + 1, sizeof(char));
     strcpy(name_copy, name);
     if(entry == NULL){
-        //outOfMemory(state.errorManager);
         return NULL;
     }
     entry->key = (char *)calloc( strlen(name_copy) + 1, sizeof(char));
     if(entry->key == NULL){
         free(entry);
-        //outOfMemory(state.errorManager);
         return NULL;
     }
     strcpy(entry->key, name);
@@ -39,7 +34,6 @@ SymbolEntry * newEventSymbol(char * name, ExpressionType expression, EventType e
     entry->eventType = eventType;
     return entry;
 }
-// Recurse through the symbol list
 
 SymbolEntry* getSymbolWithKey(SymbolEntry* entry, char* key) {
     if (entry == NULL)
@@ -51,25 +45,19 @@ SymbolEntry* getSymbolWithKey(SymbolEntry* entry, char* key) {
     return getSymbolWithKey(entry->next, key);
 }
 
-// Table creation
 SymbolTable* newEmptySymbolTable() {
     SymbolTable* table = malloc(sizeof(SymbolTable));
     if(table == NULL){
-       // outOfMemory(state.errorManager);
         return NULL;
     }
     table->top = NULL;
-    table->size = 0;
     return table;
 }
 
-
-// Table manipulation and referencing
 int addSymbolToTable(SymbolTable* table, SymbolEntry* entry) {
     if(existInTable(table, entry->key) == false){
         entry->next = table->top;
         table->top = entry;
-        table->size++;
         return true;
     }
     return false;
@@ -140,9 +128,6 @@ int isFinal(SymbolTable* table, char* key ){
     }
     return false;
 }
-int tableSize(SymbolTable * table){
-    return table->size;
-}
 
 int hasEventRecursive(SymbolEntry * entry, EventType eventType){
     if(entry == NULL){
@@ -154,7 +139,6 @@ int hasEventRecursive(SymbolEntry * entry, EventType eventType){
         return hasEventRecursive(entry->next, eventType);
     }
 }
-
 
 int hasEvent(SymbolTable * table, EventType eventType){
     return hasEventRecursive(table->top, eventType);
