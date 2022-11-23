@@ -243,23 +243,6 @@ Lane * CreateLaneWithLaneAction( char* title,  Lane *lane_param, Lane * laneAppe
 	return lane;
 }
 
-Lane * CreateLaneWithLaneAction( char* title,  Lane * lane, Lane * laneAppend){
-	LogDebug("\tCreateLaneWithLaneAction");
-	Lane * lane = malloc(sizeof(Lane));
-	if(lane == NULL){
-		state.errors++;
-		LogError("Error from malloc\n");
-		return NULL;
-	}
-	lane -> title = malloc(sizeof(char) * (strlen(title) + 1));
-	strcpy(lane -> title, title);
-	lane->type = WITH_LANE;
-	lane->lane = malloc(sizeof(Lane));
-	lane->lane = lane;
-	lane->next = laneAppend;	
-	return lane;
-}
-
 Connect * CreateConnectionAction( char* leftVar,  char* rightVar){
 	LogDebug("\tCreateConnectionAction");
 	Connect * connect = malloc(sizeof(Connect));
