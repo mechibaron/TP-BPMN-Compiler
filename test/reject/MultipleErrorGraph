@@ -1,0 +1,9 @@
+start graph "multipleErrorGraph"
+    start pool "pool1"
+        start lane
+            create event intermediate "intermediate" as $intermediate
+        end lane
+        connect $intermediate to $initial
+    end pool
+
+end graph

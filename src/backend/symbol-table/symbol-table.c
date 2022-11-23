@@ -20,6 +20,25 @@ SymbolEntry * newSymbol(char * name, ExpressionType expression){
     return entry;
 }
 
+SymbolEntry * newEventSymbol(char * name, ExpressionType expression, EventType eventType){
+    SymbolEntry* entry = malloc(sizeof(SymbolEntry));
+    char * name_copy = calloc(strlen(name) + 1, sizeof(char));
+    strcpy(name_copy, name);
+    if(entry == NULL){
+        //outOfMemory(state.errorManager);
+        return NULL;
+    }
+    entry->key = (char *)calloc( strlen(name_copy) + 1, sizeof(char));
+    if(entry->key == NULL){
+        free(entry);
+        //outOfMemory(state.errorManager);
+        return NULL;
+    }
+    strcpy(entry->key, name);
+    entry->expression = expression;
+    entry->eventType = eventType;
+    return entry;
+}
 // Recurse through the symbol list
 
 SymbolEntry* getSymbolWithKey(SymbolEntry* entry, char* key) {
@@ -114,6 +133,29 @@ int isArtifact(SymbolTable* table, char* key ){
     return false;
 }
 
+int isFinal(SymbolTable* table, char* key ){
+    SymbolEntry* entry = getEntryFromTable(table, key);
+    if(entry -> expression == EVENT_EXP && entry -> eventType == EVENT_FINAL){
+        return true;
+    }
+    return false;
+}
 int tableSize(SymbolTable * table){
     return table->size;
+}
+
+int hasEventRecursive(SymbolEntry * entry, EventType eventType){
+    if(entry == NULL){
+        return false;
+    }
+    if (entry -> expression == EVENT_EXP && entry -> eventType == EVENT_INITIAL){
+        return true;
+    }else{
+        return hasEventRecursive(entry->next, eventType);
+    }
+}
+
+
+int hasEvent(SymbolTable * table, EventType eventType){
+    return hasEventRecursive(table->top, eventType);
 }

@@ -71,7 +71,15 @@ Graph * CreateGraphAction( char* title,  Create * create_exp){
 }
 
 Expression * CreateEventAction(char* event_type, char* title, char* var){
-	if(addSymbolToTable(state.table, newSymbol(var, EVENT_EXP)) == true){
+	EventType type;
+	if(strcmp(event_type, "final")==0){
+		type = EVENT_FINAL;
+	}else if(strcmp(event_type, "initial")==0){
+		type = EVENT_INITIAL;
+	}else{
+		type = EVENT_INTERMEDIATE;
+	}
+	if(addSymbolToTable(state.table, newEventSymbol(var, EVENT_EXP, type)) == true){
 		LogDebug("\tCreateEventAction");
 		Expression * exp = malloc(sizeof(Expression));
 		if(exp == NULL){
@@ -79,13 +87,7 @@ Expression * CreateEventAction(char* event_type, char* title, char* var){
 			return NULL;
 		}
 		exp -> exp = EVENT_EXP;
-		if(strcmp(event_type, "final")==0){
-			exp -> eventType = EVENT_FINAL;
-		}else if(strcmp(event_type, "initial")==0){
-			exp -> eventType = EVENT_INITIAL;
-		}else{
-			exp->eventType = EVENT_INTERMEDIATE;
-		}
+		exp->eventType = type;
 		exp->title = malloc(sizeof(char) * (strlen(title) + 1));
 		strcpy(exp->title, title);	
 		exp->varName = malloc(sizeof(char) * (strlen(var) + 1));
@@ -93,7 +95,7 @@ Expression * CreateEventAction(char* event_type, char* title, char* var){
 		return exp;
 	} else {
 		state.errors++;
-		LogError("Variable %s no reconocida", var);
+		LogError("Variable %s ya existe", var);
 		return NULL;
 	}	
 }
@@ -114,7 +116,7 @@ Expression * CreateActivityAction(char* title, char* var){
 		return exp;
 	}else {
 		state.errors++;
-		LogError("Variable %s no reconocida", var);
+		LogError("Variable %s ya existe", var);
 		return NULL;
 	}	
 
@@ -145,7 +147,7 @@ Expression * CreateArtifactAction(char* artifact_type, char* title, char* var){
 		return exp;
 	}else {
 		state.errors++;
-		LogError("Variable %s no reconocida", var);
+		LogError("Variable %s ya existe", var);
 		return NULL;
 	}	
 
@@ -167,7 +169,7 @@ Gateway * CreateGatewayAction(char * title,  Set * set,  char* var ){
 		return gateway;
 	}else{
 		state.errors++;
-		LogError("Variable no reconocida");
+		LogError("Variable %s ya existe", var);
 		return NULL;
 	}
 }
@@ -219,6 +221,24 @@ Lane * CreateLaneAction( char* title,  Create *create_exp, Lane * laneAppend){
 	lane->type = WITHOUT_LANE;
 	lane->create = malloc(sizeof(Create));
 	lane->create = create_exp;
+	lane->next = laneAppend;
+	lane->insideLane = NULL;	
+	return lane;
+}
+
+Lane * CreateLaneWithLaneAction( char* title,  Lane *lane_param, Lane * laneAppend){
+	LogDebug("\tCreateLaneAction");
+	Lane * lane = malloc(sizeof(Lane));
+	if(lane == NULL){
+		state.errors++;
+		LogError("Error from malloc\n");
+		return NULL;
+	}
+	lane -> title = malloc(sizeof(char) * (strlen(title) + 1));
+	strcpy(lane -> title, title);
+	lane->type = WITH_LANE;
+	lane->insideLane = malloc(sizeof(Lane));
+	lane->insideLane = lane_param;
 	lane->next = laneAppend;	
 	return lane;
 }
